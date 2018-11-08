@@ -6,7 +6,10 @@ import android.widget.Toast;
 
 import com.szy.szycalendar.CalendarClickListener;
 import com.szy.szycalendar.CalendarView;
+import com.szy.szycalendar.DateUtil;
 import com.szy.szycalendar.DateView;
+
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onDayClick(int day, String dayStr) {
-                Toast.makeText(MainActivity.this, "点击了日期："+dayStr, Toast.LENGTH_SHORT).show();
+            public void onDayClick(Date date) {
+                Toast.makeText(MainActivity.this, "点击了日期："+DateUtil.getDayStr(date), Toast.LENGTH_SHORT).show();
             }
 
             @Override

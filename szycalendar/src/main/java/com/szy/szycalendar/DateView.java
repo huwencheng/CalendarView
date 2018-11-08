@@ -327,7 +327,7 @@ public class DateView extends View {
             delegate.setLastSelectDay(delegate.getSelectDay());
             calendarView.visibleCanlendar(false);
             monthBar.updateTitle(DateUtil.getDayStr(delegate.getSelectYear(), delegate.getSelectMonth(), delegate.getSelectDay()));
-            listener.onDayClick(delegate.getSelectDay(), DateUtil.getMonthStr(delegate.getCurrentPageDate()) + delegate.getSelectDay() + "日");
+            listener.onDayClick(delegate.getSelectDate());
         }
         responseWhenEnd = !eventEnd;
     }
