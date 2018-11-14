@@ -9,8 +9,8 @@ import java.util.Date;
 public interface CalendarClickListener {
 
     void onTitleClick();
-    void onLeftRowClick(DateView dateView);
-    void onRightRowClick(DateView dateView);
+    void onLeftRowClick(DateView dateView, Date date);
+    void onRightRowClick(DateView dateView, Date date);
     void onDayClick(Date date);
     void onMaskClick();
 

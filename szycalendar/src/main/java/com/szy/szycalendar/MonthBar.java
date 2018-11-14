@@ -104,7 +104,7 @@ public class MonthBar extends LinearLayout implements View.OnClickListener {
                 } else {
                     updateDay(-1, false);
                 }
-                listener.onLeftRowClick(dateView);
+                listener.onLeftRowClick(dateView, delegate.getSelectDate());
             } else if (v.getId() == R.id.img_right) {
                 boolean visible = calendarView.isVisibleMenu();
                 if (visible) {
@@ -112,7 +112,7 @@ public class MonthBar extends LinearLayout implements View.OnClickListener {
                 } else {
                     updateDay(1, false);
                 }
-                listener.onRightRowClick(dateView);
+                listener.onRightRowClick(dateView, delegate.getSelectDate());
             }
         }
     }

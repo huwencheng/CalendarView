@@ -25,18 +25,18 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onLeftRowClick(DateView dateView) {
-                Toast.makeText(MainActivity.this, "onLeftRowClick", Toast.LENGTH_LONG).show();
+            public void onLeftRowClick(DateView dateView, Date date) {
+                Toast.makeText(MainActivity.this, "点击了日期：" + DateUtil.getDayStr(date), Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onRightRowClick(DateView dateView) {
-                Toast.makeText(MainActivity.this, "onRightRowClick", Toast.LENGTH_LONG).show();
+            public void onRightRowClick(DateView dateView, Date date) {
+                Toast.makeText(MainActivity.this, "点击了日期：" + DateUtil.getDayStr(date), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onDayClick(Date date) {
-                Toast.makeText(MainActivity.this, "点击了日期："+DateUtil.getDayStr(date), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "点击了日期：" + DateUtil.getDayStr(date), Toast.LENGTH_SHORT).show();
             }
 
             @Override
