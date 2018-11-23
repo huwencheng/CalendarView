@@ -3,32 +3,41 @@
     android:id="@+id/ll_week"
     android:layout_width="match_parent"
     android:layout_height="45dp"
-    android:background="#FFFFFF"
-    android:orientation="horizontal">
+    android:background="#FFFFFF">
 
-    <ImageView
-        android:id="@+id/img_left"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:scaleType="centerInside"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:src="@drawable/calendar_row_left"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center" />
+        <ImageView
+            android:id="@+id/img_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="15dp"
+            android:paddingRight="30dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/calendar_row_left" />
 
-    <ImageView
-        android:id="@+id/img_right"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:scaleType="centerInside"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:src="@drawable/calendar_row_right"/>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
+        <ImageView
+            android:id="@+id/img_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="30dp"
+            android:paddingRight="15dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/calendar_row_right" />
+
+    </RelativeLayout>
 
 </merge>

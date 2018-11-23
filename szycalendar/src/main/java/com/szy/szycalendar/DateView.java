@@ -34,8 +34,8 @@ public class DateView extends View {
     private int lineNum;//日期行数
     private int firstLineNum, lastLineNum; //第一行、最后一行能展示多少日期
     private int columnWidth;//每列宽度
-    private int dayHeight = 160;//每行高度
-    private int tailHeight = 42;//末尾高度
+    private int dayHeight;//每行高度
+    private int tailHeight;//末尾高度
     private Delegate delegate;
     private PointF focusPoint = new PointF();//焦点坐标
     private boolean responseWhenEnd = false;//控制事件是否响应
@@ -57,6 +57,9 @@ public class DateView extends View {
     }
 
     private void initCompute() {
+        dayHeight = LocalDisplay.designedDP2px(45);
+        tailHeight = LocalDisplay.designedDP2px(12);
+
         textPaint = new Paint();
         circlePaint = new Paint();
         recPaint = new Paint();
@@ -136,6 +139,9 @@ public class DateView extends View {
         //高度 = 日期行数*每行高度 + 尾部高度
         float height = lineNum * dayHeight + tailHeight;
         Log.v(TAG, " 每行高度：" + dayHeight + " 行数：" + lineNum + "  \n控件高度：" + height);
+        int defaultSize = getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec);
+        Log.v(TAG, "defaultWidth:" + defaultSize);
+        Log.v(TAG, "jisuanWidth:" + LocalDisplay.deviceWidth(getContext()));
         setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec), (int) height);
     }
 
