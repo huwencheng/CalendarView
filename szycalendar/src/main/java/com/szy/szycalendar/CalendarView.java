@@ -10,6 +10,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import java.lang.reflect.Constructor;
+
 /**
  * 自定义日历控件
  *
@@ -24,7 +26,7 @@ public class CalendarView extends FrameLayout {
     private CalendarClickListener listener;
     private LinearLayout calendar;
     private MonthBar monthBar;
-    private DateView dateView;
+    private BaseDateView baseDateView;
 
     public CalendarView(Context context) {
         this(context, null);
@@ -91,9 +93,14 @@ public class CalendarView extends FrameLayout {
         calendar.addView(weekBar);
 
         //日期栏
-        dateView = new DateView(context);
-        dateView.setup(this, monthBar, delegate);
-        calendar.addView(dateView);
+        try {
+            Constructor<?> constructor = delegate.getDateViewClass().getConstructor(Context.class);
+            baseDateView = (BaseDateView)constructor.newInstance(context);
+            baseDateView.setup(this, monthBar, delegate);
+            calendar.addView(baseDateView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -128,8 +135,8 @@ public class CalendarView extends FrameLayout {
 
     public void setOnCalendarClickListener(CalendarClickListener listener) {
         this.listener = listener;
-        monthBar.setListener(dateView, listener);
-        dateView.setListener(listener);
+        monthBar.setListener(baseDateView, listener);
+        baseDateView.setListener(listener);
     }
 
 }

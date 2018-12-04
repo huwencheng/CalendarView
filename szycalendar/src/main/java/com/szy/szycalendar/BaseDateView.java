@@ -21,37 +21,37 @@ import java.util.Date;
  * @author huwencheng
  * @date 2018/10/30 20:18
  */
-public class DateView extends View {
+public abstract class BaseDateView extends View {
 
-    private final String TAG = "DateView";
+    private final String TAG = BaseDateView.class.getSimpleName();
 
-    private Paint circlePaint;//圆形画笔
-    private Paint textPaint;//文字画笔
-    private Paint recPaint;//矩形画笔
+    protected Paint circlePaint;//圆形画笔
+    protected Paint textPaint;//文字画笔
+    protected Paint recPaint;//矩形画笔
 
-    private int dayOfMonth;//月份天数
-    private int firstIndex;//当月第一天位置索引
-    private int lineNum;//日期行数
-    private int firstLineNum, lastLineNum; //第一行、最后一行能展示多少日期
-    private int columnWidth;//每列宽度
-    private int dayHeight;//每行高度
-    private int tailHeight;//末尾高度
-    private Delegate delegate;
-    private PointF focusPoint = new PointF();//焦点坐标
-    private boolean responseWhenEnd = false;//控制事件是否响应
-    private CalendarClickListener listener;
-    private CalendarView calendarView;
-    private MonthBar monthBar;
+    protected int dayOfMonth;//月份天数
+    protected int firstIndex;//当月第一天位置索引
+    protected int lineNum;//日期行数
+    protected int firstLineNum, lastLineNum; //第一行、最后一行能展示多少日期
+    protected int columnWidth;//每列宽度
+    protected int dayHeight;//每行高度
+    protected int tailHeight;//末尾高度
+    protected Delegate delegate;
+    protected PointF focusPoint = new PointF();//焦点坐标
+    protected boolean responseWhenEnd = false;//控制事件是否响应
+    protected CalendarClickListener listener;
+    protected CalendarView calendarView;
+    protected MonthBar monthBar;
 
-    public DateView(Context context) {
+    public BaseDateView(Context context) {
         this(context, null);
     }
 
-    public DateView(Context context, @Nullable AttributeSet attrs) {
+    public BaseDateView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public DateView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public BaseDateView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initCompute();
     }
@@ -139,9 +139,6 @@ public class DateView extends View {
         //高度 = 日期行数*每行高度 + 尾部高度
         float height = lineNum * dayHeight + tailHeight;
         Log.v(TAG, " 每行高度：" + dayHeight + " 行数：" + lineNum + "  \n控件高度：" + height);
-        int defaultSize = getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec);
-        Log.v(TAG, "defaultWidth:" + defaultSize);
-        Log.v(TAG, "jisuanWidth:" + LocalDisplay.deviceWidth(getContext()));
         setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec), (int) height);
     }
 
@@ -215,8 +212,17 @@ public class DateView extends View {
             } else {
                 canvas.drawText(day + "", rect.centerX(), baseLineY, this.textPaint);
             }
+
         }
     }
+
+    /**
+     * 是否设置子内容
+     *
+     * @return
+     */
+    protected abstract boolean isSubPoint();
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

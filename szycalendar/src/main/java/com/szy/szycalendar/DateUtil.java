@@ -71,7 +71,7 @@ public class DateUtil {
      *
      * @return 判断一个日期是否是周末，即周六日
      */
-    static boolean isWeekend(int year, int month, int day) {
+    public static boolean isWeekend(int year, int month, int day) {
         int week = getWeekFormCalendar(year, month, day);
         return week == 0 || week == 6;
     }
@@ -82,7 +82,7 @@ public class DateUtil {
      *
      * @return 返回某个日期是星期几
      */
-    static int getWeekFormCalendar(int year, int month, int day) {
+    public static int getWeekFormCalendar(int year, int month, int day) {
         Calendar date = Calendar.getInstance();
         date.set(year, month - 1, day);
         return date.get(Calendar.DAY_OF_WEEK) - 1;

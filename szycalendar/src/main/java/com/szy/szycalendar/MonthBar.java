@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,7 +25,7 @@ public class MonthBar extends LinearLayout implements View.OnClickListener {
     private CalendarView calendarView;
     private Delegate delegate;
     private CalendarClickListener listener;
-    private DateView dateView;
+    private BaseDateView baseDateView;
 
     public MonthBar(Context context) {
         this(context, null);
@@ -59,8 +58,8 @@ public class MonthBar extends LinearLayout implements View.OnClickListener {
         updateTitle(calendarView.isVisibleMenu() ? DateUtil.getMonthStr(selectYear, selectMonth) : DateUtil.getDayStr(selectYear, selectMonth, selectDay));
     }
 
-    public void setListener(DateView dateView, CalendarClickListener listener) {
-        this.dateView = dateView;
+    public void setListener(BaseDateView baseDateView, CalendarClickListener listener) {
+        this.baseDateView = baseDateView;
         this.listener = listener;
     }
 
@@ -75,7 +74,7 @@ public class MonthBar extends LinearLayout implements View.OnClickListener {
         if (DoubleClickUtils.getInstance().isInvalidClick()) {
             return;
         }
-        if (delegate != null && dateView != null && calendarView != null && listener != null) {
+        if (delegate != null && baseDateView != null && calendarView != null && listener != null) {
             if (v.getId() == R.id.tv_title) {
                 int selectYear = delegate.getSelectYear();
                 int selectMonth = delegate.getSelectMonth();
@@ -91,7 +90,7 @@ public class MonthBar extends LinearLayout implements View.OnClickListener {
 
                 //如果展开，则设置日期为当前选中的页面，并重新绘制日期
                 if (status) {
-                    dateView.monthChange(selectDate);
+                    baseDateView.monthChange(selectDate);
                 }
 
                 calendarView.visibleCanlendar(status);
@@ -104,7 +103,7 @@ public class MonthBar extends LinearLayout implements View.OnClickListener {
                 } else {
                     updateDay(-1, false);
                 }
-                listener.onLeftRowClick(dateView, delegate.getSelectDate());
+                listener.onLeftRowClick(baseDateView, delegate.getSelectDate());
             } else if (v.getId() == R.id.img_right) {
                 boolean visible = calendarView.isVisibleMenu();
                 if (visible) {
@@ -112,7 +111,7 @@ public class MonthBar extends LinearLayout implements View.OnClickListener {
                 } else {
                     updateDay(1, false);
                 }
-                listener.onRightRowClick(dateView, delegate.getSelectDate());
+                listener.onRightRowClick(baseDateView, delegate.getSelectDate());
             }
         }
     }
@@ -147,7 +146,7 @@ public class MonthBar extends LinearLayout implements View.OnClickListener {
 
             updateTitle(DateUtil.getMonthStr(delegate.getSelectDate()));
         }
-        dateView.monthChange(visible ? delegate.getCurrentPageDate() : delegate.getSelectDate());
+        baseDateView.monthChange(visible ? delegate.getCurrentPageDate() : delegate.getSelectDate());
     }
 
     /**
@@ -180,7 +179,7 @@ public class MonthBar extends LinearLayout implements View.OnClickListener {
 
             updateTitle(DateUtil.getDayStr(delegate.getSelectDate()));
         }
-        dateView.dayChange(visible ? delegate.getCurrentPageDate() : delegate.getSelectDate());
+        baseDateView.dayChange(visible ? delegate.getCurrentPageDate() : delegate.getSelectDate());
     }
 
     public void updateTitle(String date) {

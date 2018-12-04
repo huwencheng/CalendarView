@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -46,19 +48,10 @@ public class Delegate {
     private int lastSelectMonth;//上一次选中的月（避免造成重复回调请求）
     private int lastSelectDay;//上一次选中的日（避免造成重复回调请求）
 
-    Delegate(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        LocalDisplay.init(context);
+    private Class<?> dateViewClass;
+    private final String dateViewPath;
 
-        //默认选中的日期为当前日期
-        currentDate = selectDate = currentPageDate = new Date();
-        Calendar calendar = Calendar.getInstance();
-        //获取选中的年
-        selectYear = currentYear = currentPageYear = calendar.get(Calendar.YEAR);
-        //获取选中的月
-        selectMonth = currentMonth = currentPageMonth = calendar.get(Calendar.MONTH) + 1;
-        //获取选中的日
-        selectDay = currentDay = currentPageDay = calendar.get(Calendar.DAY_OF_MONTH);
-
+    public Delegate(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SzyCalendar, defStyleAttr, 0);
         monthRowL = a.getResourceId(R.styleable.SzyCalendar_szyMonthRowL, R.drawable.calendar_row_left);
         monthRowR = a.getResourceId(R.styleable.SzyCalendar_szyMonthRowR, R.drawable.calendar_row_right);
@@ -77,7 +70,31 @@ public class Delegate {
         selectBg = a.getColor(R.styleable.SzyCalendar_szySelectBg, Color.parseColor("#00aaff"));
         selectRadius = a.getDimension(R.styleable.SzyCalendar_szySelectRadius, LocalDisplay.dip2px(context, 23));
 
+        dateViewPath = a.getString(R.styleable.SzyCalendar_szyDateViewPath);
+
         a.recycle();
+        init(context);
+    }
+
+    private void init(Context context) {
+        LocalDisplay.init(context);
+
+        //默认选中的日期为当前日期
+        currentDate = selectDate = currentPageDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        //获取选中的年
+        selectYear = currentYear = currentPageYear = calendar.get(Calendar.YEAR);
+        //获取选中的月
+        selectMonth = currentMonth = currentPageMonth = calendar.get(Calendar.MONTH) + 1;
+        //获取选中的日
+        selectDay = currentDay = currentPageDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        try {
+            Log.d("summer", "Dateview:" + dateViewPath);
+            dateViewClass = TextUtils.isEmpty(dateViewPath) ? BaseDateView.class : Class.forName(dateViewPath);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getTextSizeMonth() {
@@ -250,6 +267,10 @@ public class Delegate {
 
     public void setLastSelectDay(int lastSelectDay) {
         this.lastSelectDay = lastSelectDay;
+    }
+
+    public Class<?> getDateViewClass() {
+        return dateViewClass;
     }
 
 }

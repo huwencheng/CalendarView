@@ -29,7 +29,7 @@ public class WeekBar extends LinearLayout {
         LayoutInflater.from(context).inflate(R.layout.cv_week_bar, this, true);
     }
 
-    void setup(Delegate delegate) {
+    public void setup(Delegate delegate) {
         setTextSize(delegate.getTextSizeWeek());
         setTextColor(delegate.getTextColorWeek());
         setBackgroundColor(Color.WHITE);

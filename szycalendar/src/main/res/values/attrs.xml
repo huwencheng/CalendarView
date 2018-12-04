@@ -18,6 +18,8 @@
         <attr name="szySelectTextColor" format="color" />          <!--选中日期字体颜色-->
         <attr name="szySelectBg" format="color" />                 <!--选中日期背景-->
         <attr name="szySelectRadius" format="dimension" />         <!--选中日期背景半径-->
+        
+        <attr name="szyDateViewPath" format="string"/>                 <!--自定义DateView路径-->
 
     </declare-styleable>
 </resources>
