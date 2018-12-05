@@ -7,8 +7,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 import com.szy.szycalendar.R;
-import com.szy.szycalendar.annotation.DateStatus;
 import com.szy.szycalendar.annotation.DateAnnotation;
+import com.szy.szycalendar.annotation.DateStatus;
 import com.szy.szycalendar.bean.HealthBean;
 import com.szy.szycalendar.date.base.BaseDateView;
 import com.szy.szycalendar.utils.DateUtil;
@@ -192,7 +192,7 @@ public class HealthDateView extends BaseDateView {
         return false;
     }
 
-    private boolean isCanTounch(int day){
+    private boolean isCanTounch(int day) {
         if (listHealth != null && listHealth.size() > 0) {
             for (HealthBean item : listHealth) {
                 String checkDate = item.getCheckDate();
@@ -200,11 +200,11 @@ public class HealthDateView extends BaseDateView {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(time);
                 int healthDay = calendar.get(Calendar.DAY_OF_MONTH);
-                if (healthDay == day){
+                if (healthDay == day) {
                     int status = item.getStatus();
-                    if (status == DateStatus.HealthStatus.NORMAL || status == DateStatus.HealthStatus.ISSUE){
+                    if (status == DateStatus.HealthStatus.NORMAL || status == DateStatus.HealthStatus.ISSUE) {
                         return true;
-                    }else{
+                    } else {
                         return false;
                     }
                 }

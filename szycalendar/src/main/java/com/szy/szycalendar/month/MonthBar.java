@@ -65,7 +65,6 @@ public class MonthBar extends LinearLayout implements View.OnClickListener {
         int selectDay = delegate.getSelectDay();
         tvTitle.setTextSize(delegate.getTextSizeMonth());
         tvTitle.setTextColor(delegate.getTextColorMonth());
-        Log.d("summer", "delegate.isMonthTitleClickEnable():" + delegate.isMonthTitleClickEnable());
         if (delegate.isMonthTitleClickEnable()) {
             tvTitle.setOnClickListener(this);
         }
