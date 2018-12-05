@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <com.szy.szycalendar.CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:szyDateViewPath="com.szy.szycalendar.HealthDateView"/>
+        app:szyDateShowEnable="true"
+        app:szyMonthTitleClickEnable="false"
+        app:szyCalendarExEnable="true"
+        app:szyDateViewPath="com.szy.szycalendar.date.HealthDateView" />
 
-</LinearLayout>
+    <!--<com.szy.szycalendar.CalendarView-->
+        <!--android:id="@+id/calendarView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:szyDateShowEnable="false"-->
+        <!--app:szyMonthTitleClickEnable="true"-->
+        <!--app:szyCalendarExEnable="false"-->
+        <!--app:szyDateViewPath="com.szy.szycalendar.date.DefaultDateView" />-->
+
+    <Button
+        android:id="@+id/btn_health"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="三检日历"/>
+
+</FrameLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="health_normal">#333333</color>
+    <color name="health_issue">#FF5E68</color>
+    <color name="health_uncheck">#bbbbbd</color>
+
+</resources>

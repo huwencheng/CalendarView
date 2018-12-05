@@ -1,4 +1,4 @@
-package com.szy.szycalendar;
+package com.szy.szycalendar.date.base;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,6 +11,13 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.szy.szycalendar.CalendarView;
+import com.szy.szycalendar.common.Delegate;
+import com.szy.szycalendar.inner.CalendarClickListener;
+import com.szy.szycalendar.month.MonthBar;
+import com.szy.szycalendar.utils.DateUtil;
+import com.szy.szycalendar.utils.LocalDisplay;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -25,23 +32,23 @@ public abstract class BaseDateView extends View {
 
     private final String TAG = BaseDateView.class.getSimpleName();
 
-    protected Paint circlePaint;//圆形画笔
-    protected Paint textPaint;//文字画笔
-    protected Paint recPaint;//矩形画笔
+    private Paint circlePaint;//圆形画笔
+    private Paint textPaint;//文字画笔
+    private Paint recPaint;//矩形画笔
 
-    protected int dayOfMonth;//月份天数
-    protected int firstIndex;//当月第一天位置索引
+    private int dayOfMonth;//月份天数
+    private int firstIndex;//当月第一天位置索引
     protected int lineNum;//日期行数
-    protected int firstLineNum, lastLineNum; //第一行、最后一行能展示多少日期
+    private int firstLineNum, lastLineNum; //第一行、最后一行能展示多少日期
     protected int columnWidth;//每列宽度
     protected int dayHeight;//每行高度
     protected int tailHeight;//末尾高度
     protected Delegate delegate;
-    protected PointF focusPoint = new PointF();//焦点坐标
-    protected boolean responseWhenEnd = false;//控制事件是否响应
-    protected CalendarClickListener listener;
-    protected CalendarView calendarView;
-    protected MonthBar monthBar;
+    private PointF focusPoint = new PointF();//焦点坐标
+    private boolean responseWhenEnd = false;//控制事件是否响应
+    private CalendarClickListener listener;
+    private CalendarView calendarView;
+    private MonthBar monthBar;
 
     public BaseDateView(Context context) {
         this(context, null);
@@ -65,7 +72,6 @@ public abstract class BaseDateView extends View {
         recPaint = new Paint();
         textPaint.setAntiAlias(true);//抗锯齿
         circlePaint.setAntiAlias(true);//抗锯齿
-
     }
 
     public void setup(CalendarView calendarView, MonthBar monthBar, Delegate delegate) {
@@ -105,9 +111,9 @@ public abstract class BaseDateView extends View {
     /**
      * 设置日期
      */
-    public void setCurrentPageDate(Date date) {
+    private void setCurrentPageDate(Date date) {
         //设置日期格式为yyyy-MM(以便获取正确的第一行1号显示的初始位置)
-        Date time = DateUtil.str2Date(DateUtil.getMonthStr(date));
+        Date time = DateUtil.str2DateYM(DateUtil.getMonthStr(date));
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(time);
 
@@ -128,6 +134,7 @@ public abstract class BaseDateView extends View {
             lineNum++;
             lastLineNum = shengyu;
         }
+
         Log.i(TAG, DateUtil.getMonthStr(delegate.getCurrentPageDate()) + "一共有" + dayOfMonth + "天,第一天的索引是：" + firstIndex + "   有" + lineNum +
                 "行，第一行" + firstLineNum + "个，最后一行" + lastLineNum + "个");
     }
@@ -136,10 +143,11 @@ public abstract class BaseDateView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);   //获取宽的尺寸
         columnWidth = widthSize / 7;
-        //高度 = 日期行数*每行高度 + 尾部高度
-        float height = lineNum * dayHeight + tailHeight;
-        Log.v(TAG, " 每行高度：" + dayHeight + " 行数：" + lineNum + "  \n控件高度：" + height);
-        setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec), (int) height);
+        //总高度 = 日期行数*每行高度 + 尾部高度
+        //总高度 = 日期行数*每行高度 + 尾部高度
+        int allHeight = lineNum * dayHeight + tailHeight;
+        Log.v(TAG, " 每行高度：" + dayHeight + " 行数：" + lineNum + "  \n控件高度：" + allHeight);
+        setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec), (int) allHeight + fillMeasureHeight());
     }
 
     @Override
@@ -191,15 +199,19 @@ public abstract class BaseDateView extends View {
             canvas.drawRect(rect, recPaint);
 
             if (DateUtil.isWeekend(delegate.getCurrentPageYear(), delegate.getCurrentPageMonth(), day)) {
-                this.textPaint.setColor(delegate.getTextColorWeekDay());
+                this.textPaint.setColor(getTextColorWeekDay(day));
             } else {
-                this.textPaint.setColor(delegate.getTextColorDay());
+                this.textPaint.setColor(getTextColorDay(day));
             }
 
-            if (delegate.getSelectYear() == delegate.getCurrentPageYear() && delegate.getSelectMonth() == delegate.getCurrentPageMonth() && delegate.getSelectDay() == day) {
-                this.textPaint.setColor(delegate.getSelectTextColor());
-                circlePaint.setColor(delegate.getSelectBg());
-                canvas.drawCircle(left + columnWidth / 2, top + dayHeight / 2, delegate.getSelectRadius(), circlePaint);
+            if (delegate.getSelectYear() == delegate.getCurrentPageYear()
+                    && delegate.getSelectMonth() == delegate.getCurrentPageMonth()
+                    && delegate.getSelectDay() == day) {
+                this.textPaint.setColor(getSelectTextColor(day));
+                this.circlePaint.setColor(delegate.getSelectBg());
+                if (drawSelectBg()) {
+                    canvas.drawCircle(left + columnWidth / 2, top + dayHeight / 2, delegate.getSelectRadius(), circlePaint);
+                }
             }
 
             //TODO 文字垂直方向不居中显示问题处理 ==> https://www.jianshu.com/p/71cfab079c64
@@ -207,22 +219,17 @@ public abstract class BaseDateView extends View {
             float basTop = fontMetrics.top;//为基线到字体上边框的距离,即上图中的top
             float baseBottom = fontMetrics.bottom;//为基线到字体下边框的距离,即上图中的bottom
             int baseLineY = (int) (rect.centerY() - basTop / 2 - baseBottom / 2);//基线中间点的y轴计算公式
-            if (delegate.getCurrentPageYear() == delegate.getCurrentYear() && delegate.getCurrentPageMonth() == delegate.getCurrentMonth() && delegate.getCurrentDay() == day) {
+            if (delegate.getCurrentPageYear() == delegate.getCurrentYear()
+                    && delegate.getCurrentPageMonth() == delegate.getCurrentMonth()
+                    && delegate.getCurrentDay() == day) {
                 canvas.drawText("今", rect.centerX(), baseLineY, this.textPaint);
             } else {
                 canvas.drawText(day + "", rect.centerX(), baseLineY, this.textPaint);
             }
 
+            drawOther(canvas, rect, baseLineY, day);
         }
     }
-
-    /**
-     * 是否设置子内容
-     *
-     * @return
-     */
-    protected abstract boolean isSubPoint();
-
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -330,21 +337,23 @@ public abstract class BaseDateView extends View {
      * @param eventEnd
      */
     private void setSelectedDay(int day, boolean eventEnd) {
-        Log.w(TAG, "选中：" + day + "  事件是否结束" + eventEnd);
-        updateSelectAndCurrentPageTime(delegate.getCurrentPageYear(), delegate.getCurrentPageMonth(), day);
-        invalidate();
-        if (calendarView != null && monthBar != null && listener != null && eventEnd && responseWhenEnd && !isCurrentPageSelect()) {
-            delegate.setLastSelectYear(delegate.getSelectYear());
-            delegate.setLastSelectMonth(delegate.getSelectMonth());
-            delegate.setLastSelectDay(delegate.getSelectDay());
-            calendarView.visibleCanlendar(false);
-            monthBar.updateTitle(DateUtil.getDayStr(delegate.getSelectYear(), delegate.getSelectMonth(), delegate.getSelectDay()));
-            listener.onDayClick(delegate.getSelectDate());
+        if (canTouch(day)) {
+            Log.w(TAG, "选中：" + day + "  事件是否结束" + eventEnd);
+            updateSelectAndCurrentPageTime(delegate.getCurrentPageYear(), delegate.getCurrentPageMonth(), day);
+            invalidate();
+            if (delegate != null && calendarView != null && monthBar != null && listener != null && eventEnd && responseWhenEnd && !isCurrentPageSelect()) {
+                delegate.setLastSelectYear(delegate.getSelectYear());
+                delegate.setLastSelectMonth(delegate.getSelectMonth());
+                delegate.setLastSelectDay(delegate.getSelectDay());
+                calendarView.visibleCanlendar(false);
+                monthBar.updateTitle(DateUtil.getDayStr(delegate.getSelectYear(), delegate.getSelectMonth(), delegate.getSelectDay()));
+                listener.onDayClick(delegate.getSelectDate());
+            }
+            responseWhenEnd = !eventEnd;
         }
-        responseWhenEnd = !eventEnd;
     }
 
-    public void updateSelectAndCurrentPageTime(int year, int month, int day) {
+    private void updateSelectAndCurrentPageTime(int year, int month, int day) {
         delegate.setSelectYear(delegate.getCurrentPageYear());
         delegate.setSelectMonth(delegate.getCurrentPageMonth());
         delegate.setSelectDay(day);
@@ -360,10 +369,80 @@ public abstract class BaseDateView extends View {
      * 上一次选中的时间是否和当前选中的时间一致
      */
     private boolean isCurrentPageSelect() {
-        if (delegate.getLastSelectYear() == delegate.getSelectYear() && delegate.getLastSelectMonth() == delegate.getSelectMonth() && delegate.getLastSelectDay() == delegate.getSelectDay()) {
+        if (delegate.getLastSelectYear() == delegate.getSelectYear()
+                && delegate.getLastSelectMonth() == delegate.getSelectMonth()
+                && delegate.getLastSelectDay() == delegate.getSelectDay()) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 设置日期周末字体颜色
+     *
+     * @param day
+     * @return
+     */
+    protected int getTextColorWeekDay(int day) {
+        return delegate.getTextColorWeekDay();
+    }
+
+    /**
+     * 设置日期字体颜色
+     *
+     * @param day
+     * @return
+     */
+    protected int getTextColorDay(int day) {
+        return delegate.getTextColorDay();
+    }
+
+    /**
+     * 设置选中的文本颜色
+     *
+     * @param day
+     * @return
+     */
+    protected int getSelectTextColor(int day) {
+        return delegate.getSelectTextColor();
+    }
+
+    /**
+     * 是否支持点击
+     *
+     * @return
+     */
+    protected boolean canTouch(int day) {
+        return true;
+    }
+
+    /**
+     * 是否需要绘制选中的背景
+     *
+     * @return
+     */
+    protected boolean drawSelectBg() {
+        return true;
+    }
+
+    /**
+     * 填充布局高度
+     *
+     * @return
+     */
+    protected int fillMeasureHeight() {
+        return 0;
+    }
+
+    /**
+     * 绘制其他内容
+     *
+     * @param canvas
+     * @param rect
+     * @param baseLineY
+     * @param day
+     */
+    protected void drawOther(Canvas canvas, Rect rect, int baseLineY, int day) {
     }
 
 }

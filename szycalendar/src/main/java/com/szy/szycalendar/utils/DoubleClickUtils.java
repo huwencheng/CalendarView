@@ -1,4 +1,4 @@
-package com.szy.szycalendar;
+package com.szy.szycalendar.utils;
 
 /**
  * 控制点击，避免瞬间点击两下

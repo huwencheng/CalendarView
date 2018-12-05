@@ -1,4 +1,6 @@
-package com.szy.szycalendar;
+package com.szy.szycalendar.inner;
+
+import com.szy.szycalendar.date.base.BaseDateView;
 
 import java.util.Date;
 
@@ -9,9 +11,13 @@ import java.util.Date;
 public interface CalendarClickListener {
 
     void onTitleClick();
+
     void onLeftRowClick(BaseDateView baseDateView, Date date);
+
     void onRightRowClick(BaseDateView baseDateView, Date date);
+
     void onDayClick(Date date);
+
     void onMaskClick();
 
 }

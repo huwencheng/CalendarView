@@ -1,12 +1,17 @@
-package com.szy.szycalendar;
+package com.szy.szycalendar.week;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.szy.szycalendar.R;
+import com.szy.szycalendar.common.Delegate;
+import com.szy.szycalendar.utils.LocalDisplay;
 
 /**
  * 星期栏
@@ -53,4 +58,8 @@ public class WeekBar extends LinearLayout {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return true;
+    }
 }

@@ -2,9 +2,8 @@
 <resources>
     <declare-styleable name="SzyCalendar">
 
-        <attr name="szyMonthRowL" format="reference" />            <!--月份箭头-->
-        <attr name="szyMonthRowR" format="reference" />            <!--月份箭头-->
-        <attr name="szyMonthRowSpac" format="dimension" />
+        <attr name="szyMonthRowLIcon" format="reference" />            <!--月份箭头-->
+        <attr name="szyMonthRowRIcon" format="reference" />            <!--月份箭头-->
 
         <attr name="szyTextColorMonth" format="color" />           <!--标题年月字体颜色-->
         <attr name="szyTextColorWeek" format="color" />            <!--星期字体颜色-->
@@ -14,12 +13,16 @@
         <attr name="szyTextSizeMonth" format="color" />           <!--标题年月字体大小-->
         <attr name="szyTextSizeWeek" format="color" />            <!--星期字体大小-->
         <attr name="szyTextSizeDay" format="color" />             <!--日期字体大小-->
+        <attr name="szyTextSizeHealth" format="color" />          <!--三检底部字体大小-->
 
         <attr name="szySelectTextColor" format="color" />          <!--选中日期字体颜色-->
         <attr name="szySelectBg" format="color" />                 <!--选中日期背景-->
         <attr name="szySelectRadius" format="dimension" />         <!--选中日期背景半径-->
-        
-        <attr name="szyDateViewPath" format="string"/>                 <!--自定义DateView路径-->
+
+        <attr name="szyMonthTitleClickEnable" format="boolean"/>        <!--月份标题是否可以点击-->
+        <attr name="szyDateShowEnable" format="boolean"/>               <!--日期是否展示-->
+        <attr name="szyCalendarExEnable" format="boolean"/>                <!--隐藏日历的时候是否全部隐藏-->
+        <attr name="szyDateViewPath" format="string" />                 <!--自定义DateView路径-->
 
     </declare-styleable>
 </resources>

@@ -1,4 +1,4 @@
-package com.szy.szycalendar;
+package com.szy.szycalendar.common;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -6,7 +6,10 @@ import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
+
+import com.szy.szycalendar.R;
+import com.szy.szycalendar.date.base.BaseDateView;
+import com.szy.szycalendar.utils.LocalDisplay;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -20,16 +23,20 @@ public class Delegate {
     private final int textSizeMonth;
     private final int textSizeWeek;
     private final int textSizeDay;
+    private final int textSizeHealth;
     private final int textColorWeekDay;
     private int monthRowL;
     private int monthRowR;
-    private float monthRowSpac;
     private int textColorMonth;
     private int textColorWeek;
     private int textColorDay;
     private int selectTextColor;
     private int selectBg;
     private float selectRadius;
+    private final boolean monthTitleClickEnable;
+    private final boolean dateShowEnable;
+    private final boolean calendarExEnable;// true:全部隐藏 false:指隐藏周栏和日期栏，保留月份栏
+    private Class<?> dateViewClass;
 
     private Date currentDate;//当前的日期
     private int currentYear;//当前的年
@@ -48,14 +55,10 @@ public class Delegate {
     private int lastSelectMonth;//上一次选中的月（避免造成重复回调请求）
     private int lastSelectDay;//上一次选中的日（避免造成重复回调请求）
 
-    private Class<?> dateViewClass;
-    private final String dateViewPath;
-
     public Delegate(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SzyCalendar, defStyleAttr, 0);
-        monthRowL = a.getResourceId(R.styleable.SzyCalendar_szyMonthRowL, R.drawable.calendar_row_left);
-        monthRowR = a.getResourceId(R.styleable.SzyCalendar_szyMonthRowR, R.drawable.calendar_row_right);
-        monthRowSpac = a.getDimension(R.styleable.SzyCalendar_szyMonthRowSpac, LocalDisplay.dip2px(context, 10));
+        monthRowL = a.getResourceId(R.styleable.SzyCalendar_szyMonthRowLIcon, R.drawable.calendar_row_left);
+        monthRowR = a.getResourceId(R.styleable.SzyCalendar_szyMonthRowRIcon, R.drawable.calendar_row_right);
 
         textColorMonth = a.getColor(R.styleable.SzyCalendar_szyTextColorMonth, Color.parseColor("#333333"));
         textColorWeek = a.getColor(R.styleable.SzyCalendar_szyTextColorWeek, Color.parseColor("#bbbbbd"));
@@ -65,18 +68,22 @@ public class Delegate {
         textSizeMonth = a.getDimensionPixelSize(R.styleable.SzyCalendar_szyTextSizeMonth, 15);
         textSizeWeek = a.getDimensionPixelSize(R.styleable.SzyCalendar_szyTextSizeWeek, 12);
         textSizeDay = a.getDimensionPixelSize(R.styleable.SzyCalendar_szyTextSizeDay, 15);
+        textSizeHealth = a.getDimensionPixelSize(R.styleable.SzyCalendar_szyTextSizeHealth, 12);
 
         selectTextColor = a.getColor(R.styleable.SzyCalendar_szySelectTextColor, Color.WHITE);
         selectBg = a.getColor(R.styleable.SzyCalendar_szySelectBg, Color.parseColor("#00aaff"));
         selectRadius = a.getDimension(R.styleable.SzyCalendar_szySelectRadius, LocalDisplay.dip2px(context, 23));
 
-        dateViewPath = a.getString(R.styleable.SzyCalendar_szyDateViewPath);
+        monthTitleClickEnable = a.getBoolean(R.styleable.SzyCalendar_szyMonthTitleClickEnable, true);
+        dateShowEnable = a.getBoolean(R.styleable.SzyCalendar_szyDateShowEnable, false);
+        calendarExEnable = a.getBoolean(R.styleable.SzyCalendar_szyCalendarExEnable, false);
+        String dateViewPath = a.getString(R.styleable.SzyCalendar_szyDateViewPath);
 
         a.recycle();
-        init(context);
+        init(context, dateViewPath);
     }
 
-    private void init(Context context) {
+    private void init(Context context, String dateViewPath) {
         LocalDisplay.init(context);
 
         //默认选中的日期为当前日期
@@ -90,7 +97,6 @@ public class Delegate {
         selectDay = currentDay = currentPageDay = calendar.get(Calendar.DAY_OF_MONTH);
 
         try {
-            Log.d("summer", "Dateview:" + dateViewPath);
             dateViewClass = TextUtils.isEmpty(dateViewPath) ? BaseDateView.class : Class.forName(dateViewPath);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -109,16 +115,16 @@ public class Delegate {
         return textSizeDay;
     }
 
+    public int getTextSizeHealth() {
+        return textSizeHealth;
+    }
+
     public int getMonthRowL() {
         return monthRowL;
     }
 
     public int getMonthRowR() {
         return monthRowR;
-    }
-
-    public float getMonthRowSpac() {
-        return monthRowSpac;
     }
 
     public int getTextColorMonth() {
@@ -267,6 +273,18 @@ public class Delegate {
 
     public void setLastSelectDay(int lastSelectDay) {
         this.lastSelectDay = lastSelectDay;
+    }
+
+    public boolean isMonthTitleClickEnable() {
+        return monthTitleClickEnable;
+    }
+
+    public boolean isDateShowEnable() {
+        return dateShowEnable;
+    }
+
+    public boolean isCalendarExEnable() {
+        return calendarExEnable;
     }
 
     public Class<?> getDateViewClass() {

@@ -1,4 +1,4 @@
-package com.szy.szycalendar;
+package com.szy.szycalendar.utils;
 
 import android.content.Context;
 import android.content.res.Resources;

@@ -1,4 +1,4 @@
-package com.szy.szycalendar;
+package com.szy.szycalendar.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -40,9 +40,19 @@ public class DateUtil {
         return year + "-" + month + "-" + day;
     }
 
-    public static Date str2Date(String str) {
+    public static Date str2DateYM(String str) {
         try {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM");
+            return df.parse(str);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Date str2DateYMD(String str) {
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             return df.parse(str);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,14 +1,25 @@
-package com.szy.szycalendar;
+package com.szy.szycalendar.month;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.szy.szycalendar.CalendarView;
+import com.szy.szycalendar.R;
+import com.szy.szycalendar.common.Delegate;
+import com.szy.szycalendar.date.base.BaseDateView;
+import com.szy.szycalendar.inner.CalendarClickListener;
+import com.szy.szycalendar.utils.DateUtil;
+import com.szy.szycalendar.utils.DoubleClickUtils;
+import com.szy.szycalendar.utils.LocalDisplay;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -41,7 +52,6 @@ public class MonthBar extends LinearLayout implements View.OnClickListener {
         tvTitle = (TextView) inflate.findViewById(R.id.tv_title);
         ImageView imgLeft = (ImageView) inflate.findViewById(R.id.img_left);
         ImageView imgRight = (ImageView) inflate.findViewById(R.id.img_right);
-        tvTitle.setOnClickListener(this);
         imgLeft.setOnClickListener(this);
         imgRight.setOnClickListener(this);
     }
@@ -55,6 +65,10 @@ public class MonthBar extends LinearLayout implements View.OnClickListener {
         int selectDay = delegate.getSelectDay();
         tvTitle.setTextSize(delegate.getTextSizeMonth());
         tvTitle.setTextColor(delegate.getTextColorMonth());
+        Log.d("summer", "delegate.isMonthTitleClickEnable():" + delegate.isMonthTitleClickEnable());
+        if (delegate.isMonthTitleClickEnable()) {
+            tvTitle.setOnClickListener(this);
+        }
         updateTitle(calendarView.isVisibleMenu() ? DateUtil.getMonthStr(selectYear, selectMonth) : DateUtil.getDayStr(selectYear, selectMonth, selectDay));
     }
 
@@ -184,6 +198,11 @@ public class MonthBar extends LinearLayout implements View.OnClickListener {
 
     public void updateTitle(String date) {
         tvTitle.setText(date);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return true;
     }
 
 }

@@ -1,6 +1,8 @@
-package com.szy.szycalendar;
+package com.szy.szycalendar.date;
 
 import android.content.Context;
+
+import com.szy.szycalendar.date.base.BaseDateView;
 
 /**
  * 默认日期控件
@@ -14,11 +16,6 @@ public class DefaultDateView extends BaseDateView {
 
     public DefaultDateView(Context context) {
         super(context);
-    }
-
-    @Override
-    protected boolean isSubPoint() {
-        return false;
     }
 
 }
