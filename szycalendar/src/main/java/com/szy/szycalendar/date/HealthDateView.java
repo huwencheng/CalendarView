@@ -103,8 +103,10 @@ public class HealthDateView extends BaseDateView {
 
     @Override
     public void destroyDrawingCache() {
-        listHealth.clear();
-        listHealth = null;
+        if (listHealth != null){
+            listHealth.clear();
+            listHealth = null;
+        }
         super.destroyDrawingCache();
     }
 
