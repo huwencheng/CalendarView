@@ -151,6 +151,7 @@ public class CalendarView extends FrameLayout {
 
         if (delegate.isCalendarExEnable()) {
             content.setVisibility(isShow ? View.VISIBLE : View.GONE);
+            content.setAnimation(isShow ? AnimationUtils.loadAnimation(getContext(), R.anim.calendar_in) : AnimationUtils.loadAnimation(getContext(), R.anim.calendar_out));
         } else {
             calendar.setVisibility(isShow ? View.VISIBLE : View.GONE);
             calendar.setAnimation(isShow ? AnimationUtils.loadAnimation(getContext(), R.anim.calendar_in) : AnimationUtils.loadAnimation(getContext(), R.anim.calendar_out));
