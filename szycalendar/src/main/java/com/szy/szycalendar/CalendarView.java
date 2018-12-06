@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -16,11 +15,12 @@ import com.szy.szycalendar.date.base.BaseDateView;
 import com.szy.szycalendar.inner.CalendarClickListener;
 import com.szy.szycalendar.month.MonthBar;
 import com.szy.szycalendar.utils.DateUtil;
+import com.szy.szycalendar.utils.DisplayUtil;
 import com.szy.szycalendar.utils.DoubleClickUtils;
-import com.szy.szycalendar.utils.LocalDisplay;
 import com.szy.szycalendar.week.WeekBar;
 
 import java.lang.reflect.Constructor;
+import java.util.Date;
 
 /**
  * 自定义日历控件
@@ -68,7 +68,6 @@ public class CalendarView extends FrameLayout {
                 }
                 if (delegate != null && monthBar != null && listener != null) {
                     visibleCanlendar(false);
-                    monthBar.updateTitle(DateUtil.getDayStr(delegate.getSelectYear(), delegate.getSelectMonth(), delegate.getSelectDay()));
                     listener.onMaskClick();
                 }
             }
@@ -88,7 +87,7 @@ public class CalendarView extends FrameLayout {
 
         //分割线
         View line = new View(context);
-        line.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, LocalDisplay.dip2px(context, 0.5f)));
+        line.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, DisplayUtil.dip2px(context, 0.5f)));
         line.setBackgroundColor(Color.parseColor("#eeeeee"));
         content.addView(line);
 
@@ -119,15 +118,40 @@ public class CalendarView extends FrameLayout {
         return baseDateView;
     }
 
+    public Delegate getDelegate() {
+        return delegate;
+    }
+
     public boolean isVisibleMenu() {
         return maskView != null && maskView.getVisibility() == View.VISIBLE;
     }
 
     public void visibleCanlendar(final boolean isShow) {
-        if (delegate.isCalendarExEnable()){
+        if (delegate.isCalendarExEnable()) {
+            monthBar.updateTitle(DateUtil.getMonthStr(delegate.getSelectYear(), delegate.getSelectMonth()));
+        } else {
+            monthBar.updateTitle(DateUtil.getDayStr(delegate.getSelectYear(), delegate.getSelectMonth(), delegate.getSelectDay()));
+        }
+
+        int selectYear = delegate.getSelectYear();
+        int selectMonth = delegate.getSelectMonth();
+        int selectDay = delegate.getSelectDay();
+        Date selectDate = delegate.getSelectDate();
+
+        //重置当前页面的日期，确保当前显示的页面和选中的页面内容一致
+        delegate.setCurrentPageYear(selectYear);
+        delegate.setCurrentPageMonth(selectMonth);
+        delegate.setCurrentPageDay(selectDay);
+        delegate.setCurrentPageDate(selectDate);
+
+        //如果展开，则设置日期为当前选中的页面，并重新绘制日期
+        if (isShow) {
+            baseDateView.monthChange(selectDate);
+        }
+
+        if (delegate.isCalendarExEnable()) {
             content.setVisibility(isShow ? View.VISIBLE : View.GONE);
-            content.setAnimation(isShow ? AnimationUtils.loadAnimation(getContext(), R.anim.calendar_in) : AnimationUtils.loadAnimation(getContext(), R.anim.calendar_out));
-        }else{
+        } else {
             calendar.setVisibility(isShow ? View.VISIBLE : View.GONE);
             calendar.setAnimation(isShow ? AnimationUtils.loadAnimation(getContext(), R.anim.calendar_in) : AnimationUtils.loadAnimation(getContext(), R.anim.calendar_out));
         }

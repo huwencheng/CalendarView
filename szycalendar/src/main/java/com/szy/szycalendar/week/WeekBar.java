@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.szy.szycalendar.R;
 import com.szy.szycalendar.common.Delegate;
-import com.szy.szycalendar.utils.LocalDisplay;
+import com.szy.szycalendar.utils.DisplayUtil;
 
 /**
  * 星期栏
@@ -54,7 +54,7 @@ public class WeekBar extends LinearLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec(LocalDisplay.dip2px(getContext(), 40), MeasureSpec.EXACTLY);
+        heightMeasureSpec = MeasureSpec.makeMeasureSpec(DisplayUtil.dip2px(getContext(), 40), MeasureSpec.EXACTLY);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 

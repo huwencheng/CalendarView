@@ -11,7 +11,7 @@ import android.view.ViewGroup;
  * @author huwencheng
  * @date 2018/10/30 16:57
  */
-public class LocalDisplay {
+public class DisplayUtil {
 
     public static int SCREEN_WIDTH_PIXELS;
     public static int SCREEN_HEIGHT_PIXELS;
@@ -20,7 +20,7 @@ public class LocalDisplay {
     public static int SCREEN_HEIGHT_DP;
     private static boolean sInitialed;
 
-    public LocalDisplay() {
+    public DisplayUtil() {
     }
 
     public static void init(Context context) {

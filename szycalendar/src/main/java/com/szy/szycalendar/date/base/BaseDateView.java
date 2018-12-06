@@ -17,7 +17,7 @@ import com.szy.szycalendar.common.Delegate;
 import com.szy.szycalendar.inner.CalendarClickListener;
 import com.szy.szycalendar.month.MonthBar;
 import com.szy.szycalendar.utils.DateUtil;
-import com.szy.szycalendar.utils.LocalDisplay;
+import com.szy.szycalendar.utils.DisplayUtil;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -64,8 +64,8 @@ public abstract class BaseDateView extends View {
     }
 
     private void initCompute() {
-        dayHeight = LocalDisplay.designedDP2px(45);
-        tailHeight = LocalDisplay.designedDP2px(12);
+        dayHeight = DisplayUtil.designedDP2px(45);
+        tailHeight = DisplayUtil.designedDP2px(12);
 
         textPaint = new Paint();
         circlePaint = new Paint();
@@ -82,7 +82,7 @@ public abstract class BaseDateView extends View {
         recPaint.setColor(Color.TRANSPARENT);
         textPaint.setTextAlign(Paint.Align.CENTER);
         //TODO textPaint.setTextsize()和textview.setTextsize()区别 ==> https://blog.csdn.net/chenhuakang/article/details/53323034
-        textPaint.setTextSize(LocalDisplay.sp2px(getContext(), delegate.getTextSizeDay()));
+        textPaint.setTextSize(DisplayUtil.sp2px(getContext(), delegate.getTextSizeDay()));
 
         //默认当前日期为选中的日期
         setCurrentPageDate(delegate.getSelectDate());
@@ -346,7 +346,11 @@ public abstract class BaseDateView extends View {
                 delegate.setLastSelectMonth(delegate.getSelectMonth());
                 delegate.setLastSelectDay(delegate.getSelectDay());
                 calendarView.visibleCanlendar(false);
-                monthBar.updateTitle(DateUtil.getDayStr(delegate.getSelectYear(), delegate.getSelectMonth(), delegate.getSelectDay()));
+                if(delegate.isCalendarExEnable()){
+                    monthBar.updateTitle(DateUtil.getMonthStr(delegate.getSelectYear(), delegate.getSelectMonth()));
+                }else{
+                    monthBar.updateTitle(DateUtil.getDayStr(delegate.getSelectYear(), delegate.getSelectMonth(), delegate.getSelectDay()));
+                }
                 listener.onDayClick(delegate.getSelectDate());
             }
             responseWhenEnd = !eventEnd;

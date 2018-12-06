@@ -12,7 +12,7 @@ import com.szy.szycalendar.annotation.DateStatus;
 import com.szy.szycalendar.bean.HealthBean;
 import com.szy.szycalendar.date.base.BaseDateView;
 import com.szy.szycalendar.utils.DateUtil;
-import com.szy.szycalendar.utils.LocalDisplay;
+import com.szy.szycalendar.utils.DisplayUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,13 +41,13 @@ public class HealthDateView extends BaseDateView {
         healthPaint.setAntiAlias(true);//抗锯齿
         dotPaint.setAntiAlias(true);//抗锯齿
 
-        spaceHeight = LocalDisplay.designedDP2px(8);
-        dotRadius = LocalDisplay.designedDP2px(2);
+        spaceHeight = DisplayUtil.designedDP2px(8);
+        dotRadius = DisplayUtil.designedDP2px(2);
     }
 
     @Override
     protected int fillMeasureHeight() {
-        return LocalDisplay.designedDP2px(40f);
+        return DisplayUtil.designedDP2px(40f);
     }
 
     @Override
@@ -55,16 +55,16 @@ public class HealthDateView extends BaseDateView {
         super.onDraw(canvas);
         float height = lineNum * dayHeight + tailHeight;
         healthPaint.setColor(Color.parseColor("#eeeeee"));
-        canvas.drawRect(0, height, LocalDisplay.deviceWidth(getContext()), height + LocalDisplay.dip2px(getContext(), 0.5f), healthPaint);
+        canvas.drawRect(0, height, DisplayUtil.deviceWidth(getContext()), height + DisplayUtil.dip2px(getContext(), 0.5f), healthPaint);
 
         healthPaint.setTextAlign(Paint.Align.CENTER);
-        healthPaint.setTextSize(LocalDisplay.sp2px(getContext(), delegate.getTextSizeHealth()));
+        healthPaint.setTextSize(DisplayUtil.sp2px(getContext(), delegate.getTextSizeHealth()));
         healthPaint.setColor(getContext().getResources().getColor(R.color.health_issue));
-        canvas.drawText("● 异常", columnWidth * 1.8f, height + LocalDisplay.designedDP2px(25f), healthPaint);
+        canvas.drawText("● 异常", columnWidth * 1.8f, height + DisplayUtil.designedDP2px(25f), healthPaint);
         healthPaint.setColor(getContext().getResources().getColor(R.color.health_normal));
-        canvas.drawText("● 正常", columnWidth * 3.5f, height + LocalDisplay.designedDP2px(25f), healthPaint);
+        canvas.drawText("● 正常", columnWidth * 3.5f, height + DisplayUtil.designedDP2px(25f), healthPaint);
         healthPaint.setColor(getContext().getResources().getColor(R.color.health_uncheck));
-        canvas.drawText("● 未体检", columnWidth * 5.2f, height + LocalDisplay.designedDP2px(25f), healthPaint);
+        canvas.drawText("● 未体检", columnWidth * 5.2f, height + DisplayUtil.designedDP2px(25f), healthPaint);
     }
 
     @Override
@@ -99,6 +99,13 @@ public class HealthDateView extends BaseDateView {
             dotPaint.setColor(getContext().getResources().getColor(R.color.health_issue));
             canvas.drawCircle(rect.centerX(), baseLineY + spaceHeight, dotRadius, dotPaint);
         }
+    }
+
+    @Override
+    public void destroyDrawingCache() {
+        listHealth.clear();
+        listHealth = null;
+        super.destroyDrawingCache();
     }
 
     /**

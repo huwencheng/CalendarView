@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 
 import com.szy.szycalendar.R;
 import com.szy.szycalendar.date.base.BaseDateView;
-import com.szy.szycalendar.utils.LocalDisplay;
+import com.szy.szycalendar.utils.DisplayUtil;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -72,7 +72,7 @@ public class Delegate {
 
         selectTextColor = a.getColor(R.styleable.SzyCalendar_szySelectTextColor, Color.WHITE);
         selectBg = a.getColor(R.styleable.SzyCalendar_szySelectBg, Color.parseColor("#00aaff"));
-        selectRadius = a.getDimension(R.styleable.SzyCalendar_szySelectRadius, LocalDisplay.dip2px(context, 23));
+        selectRadius = a.getDimension(R.styleable.SzyCalendar_szySelectRadius, DisplayUtil.dip2px(context, 23));
 
         monthTitleClickEnable = a.getBoolean(R.styleable.SzyCalendar_szyMonthTitleClickEnable, true);
         dateShowEnable = a.getBoolean(R.styleable.SzyCalendar_szyDateShowEnable, false);
@@ -84,7 +84,7 @@ public class Delegate {
     }
 
     private void init(Context context, String dateViewPath) {
-        LocalDisplay.init(context);
+        DisplayUtil.init(context);
 
         //默认选中的日期为当前日期
         currentDate = selectDate = currentPageDate = new Date();

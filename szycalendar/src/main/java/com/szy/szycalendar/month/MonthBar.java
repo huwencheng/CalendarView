@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,11 +17,10 @@ import com.szy.szycalendar.common.Delegate;
 import com.szy.szycalendar.date.base.BaseDateView;
 import com.szy.szycalendar.inner.CalendarClickListener;
 import com.szy.szycalendar.utils.DateUtil;
+import com.szy.szycalendar.utils.DisplayUtil;
 import com.szy.szycalendar.utils.DoubleClickUtils;
-import com.szy.szycalendar.utils.LocalDisplay;
 
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * 选择月份栏
@@ -68,7 +66,11 @@ public class MonthBar extends LinearLayout implements View.OnClickListener {
         if (delegate.isMonthTitleClickEnable()) {
             tvTitle.setOnClickListener(this);
         }
-        updateTitle(calendarView.isVisibleMenu() ? DateUtil.getMonthStr(selectYear, selectMonth) : DateUtil.getDayStr(selectYear, selectMonth, selectDay));
+        if (delegate.isCalendarExEnable()) {
+            updateTitle(DateUtil.getMonthStr(selectYear, selectMonth));
+        } else {
+            updateTitle(calendarView.isVisibleMenu() ? DateUtil.getMonthStr(selectYear, selectMonth) : DateUtil.getDayStr(selectYear, selectMonth, selectDay));
+        }
     }
 
     public void setListener(BaseDateView baseDateView, CalendarClickListener listener) {
@@ -78,7 +80,7 @@ public class MonthBar extends LinearLayout implements View.OnClickListener {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec(LocalDisplay.dip2px(getContext(), 45), MeasureSpec.EXACTLY);
+        heightMeasureSpec = MeasureSpec.makeMeasureSpec(DisplayUtil.dip2px(getContext(), 45), MeasureSpec.EXACTLY);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
@@ -89,25 +91,8 @@ public class MonthBar extends LinearLayout implements View.OnClickListener {
         }
         if (delegate != null && baseDateView != null && calendarView != null && listener != null) {
             if (v.getId() == R.id.tv_title) {
-                int selectYear = delegate.getSelectYear();
-                int selectMonth = delegate.getSelectMonth();
-                int selectDay = delegate.getSelectDay();
-                Date selectDate = delegate.getSelectDate();
                 boolean status = calendarView.isVisibleMenu() ? false : true;
-
-                //重置当前页面的日期，确保当前显示的页面和选中的页面内容一致
-                delegate.setCurrentPageYear(selectYear);
-                delegate.setCurrentPageMonth(selectMonth);
-                delegate.setCurrentPageDay(selectDay);
-                delegate.setCurrentPageDate(selectDate);
-
-                //如果展开，则设置日期为当前选中的页面，并重新绘制日期
-                if (status) {
-                    baseDateView.monthChange(selectDate);
-                }
-
                 calendarView.visibleCanlendar(status);
-                updateTitle(status ? DateUtil.getMonthStr(selectYear, selectMonth) : DateUtil.getDayStr(selectYear, selectMonth, selectDay));
                 listener.onTitleClick();
             } else if (v.getId() == R.id.img_left) {
                 boolean visible = calendarView.isVisibleMenu();
