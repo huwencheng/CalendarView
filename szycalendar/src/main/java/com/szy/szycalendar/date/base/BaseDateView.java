@@ -346,9 +346,9 @@ public abstract class BaseDateView extends View {
                 delegate.setLastSelectMonth(delegate.getSelectMonth());
                 delegate.setLastSelectDay(delegate.getSelectDay());
                 calendarView.visibleCanlendar(false);
-                if(delegate.isCalendarExEnable()){
+                if (delegate.isCalendarExEnable()) {
                     monthBar.updateTitle(DateUtil.getMonthStr(delegate.getSelectYear(), delegate.getSelectMonth()));
-                }else{
+                } else {
                     monthBar.updateTitle(DateUtil.getDayStr(delegate.getSelectYear(), delegate.getSelectMonth(), delegate.getSelectDay()));
                 }
                 listener.onDayClick(delegate.getSelectDate());
