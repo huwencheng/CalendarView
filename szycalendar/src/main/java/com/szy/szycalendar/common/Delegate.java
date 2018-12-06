@@ -34,7 +34,6 @@ public class Delegate {
     private int selectBg;
     private float selectRadius;
     private final boolean monthTitleClickEnable;
-    private final boolean dateShowEnable;
     private final boolean calendarExEnable;// true:全部隐藏 false:指隐藏周栏和日期栏，保留月份栏
     private Class<?> dateViewClass;
 
@@ -75,7 +74,6 @@ public class Delegate {
         selectRadius = a.getDimension(R.styleable.SzyCalendar_szySelectRadius, DisplayUtil.dip2px(context, 23));
 
         monthTitleClickEnable = a.getBoolean(R.styleable.SzyCalendar_szyMonthTitleClickEnable, true);
-        dateShowEnable = a.getBoolean(R.styleable.SzyCalendar_szyDateShowEnable, false);
         calendarExEnable = a.getBoolean(R.styleable.SzyCalendar_szyCalendarExEnable, false);
         String dateViewPath = a.getString(R.styleable.SzyCalendar_szyDateViewPath);
 
@@ -277,10 +275,6 @@ public class Delegate {
 
     public boolean isMonthTitleClickEnable() {
         return monthTitleClickEnable;
-    }
-
-    public boolean isDateShowEnable() {
-        return dateShowEnable;
     }
 
     public boolean isCalendarExEnable() {

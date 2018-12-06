@@ -16,7 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:szyCalendarExEnable="true"
-        app:szyDateShowEnable="true"
         app:szyDateViewPath="com.szy.szycalendar.date.HealthDateView"
         app:szyMonthTitleClickEnable="false" />
 

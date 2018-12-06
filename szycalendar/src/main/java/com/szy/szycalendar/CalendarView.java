@@ -59,7 +59,7 @@ public class CalendarView extends FrameLayout {
         maskView.setId(R.id.view_mask);
         maskView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
         maskView.setBackgroundColor(maskColor);
-        maskView.setVisibility(delegate.isDateShowEnable() ? View.VISIBLE : View.GONE);
+        maskView.setVisibility(View.GONE);
         maskView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +78,7 @@ public class CalendarView extends FrameLayout {
         content = new LinearLayout(context);
         content.setOrientation(LinearLayout.VERTICAL);
         content.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        content.setVisibility(delegate.isCalendarExEnable() ? View.GONE : View.VISIBLE);
         addView(content);
 
         //月份栏
@@ -94,7 +95,7 @@ public class CalendarView extends FrameLayout {
         calendar = new LinearLayout(context);
         calendar.setOrientation(LinearLayout.VERTICAL);
         calendar.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-        calendar.setVisibility(delegate.isDateShowEnable() ? View.VISIBLE : View.GONE);
+        calendar.setVisibility(delegate.isCalendarExEnable() ? View.VISIBLE : View.GONE);
         content.addView(calendar);
 
         //星期栏
