@@ -127,6 +127,9 @@ public class HealthDateView extends BaseDateView {
         int currentMonth = delegate.getCurrentPageMonth();
 
         if (year == currentYear && month == currentMonth) {
+            if (listHealth == null){
+                listHealth = new ArrayList<>();
+            }
             listHealth.clear();
             listHealth.addAll(list);
         }
