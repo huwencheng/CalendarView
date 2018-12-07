@@ -51,6 +51,7 @@ public class HealthCalendarActivity extends AppCompatActivity implements View.On
                 Toast.makeText(HealthCalendarActivity.this, "点击了日期：" + DateUtil.getDayStr(date), Toast.LENGTH_SHORT).show();
                 if (dateView != null && dateView instanceof HealthDateView) {
                     HealthDateView healthDateView = (HealthDateView) dateView;
+                    healthDateView.clearHealthData();
                     String monthStr = DateUtil.getMonthStr(date);
                     List<HealthBean> list = new ArrayList<>();
                     HealthBean healthBean1 = new HealthBean();
@@ -77,6 +78,7 @@ public class HealthCalendarActivity extends AppCompatActivity implements View.On
                 Toast.makeText(HealthCalendarActivity.this, "点击了日期：" + DateUtil.getDayStr(date), Toast.LENGTH_SHORT).show();
                 if (dateView != null && dateView instanceof HealthDateView) {
                     HealthDateView healthDateView = (HealthDateView) dateView;
+                    healthDateView.clearHealthData();
                     String monthStr = DateUtil.getMonthStr(date);
                     List<HealthBean> list = new ArrayList<>();
                     HealthBean healthBean1 = new HealthBean();
