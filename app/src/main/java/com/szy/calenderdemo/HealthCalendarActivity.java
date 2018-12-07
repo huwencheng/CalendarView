@@ -52,21 +52,21 @@ public class HealthCalendarActivity extends AppCompatActivity implements View.On
                 if (dateView != null && dateView instanceof HealthDateView) {
                     HealthDateView healthDateView = (HealthDateView) dateView;
                     healthDateView.clearHealthData();
-                    String monthStr = DateUtil.getMonthStr(date);
+                    String monthStr = DateUtil.getMonthStr(calendarView.getDelegate().getCurrentPageDate());
                     List<HealthBean> list = new ArrayList<>();
                     HealthBean healthBean1 = new HealthBean();
                     healthBean1.setStatus(DateStatus.HealthStatus.ISSUE);
-                    healthBean1.setCheckDate(monthStr + "-10");
+                    healthBean1.setCheckDate(monthStr + "-05");
                     list.add(healthBean1);
 
                     HealthBean healthBean2 = new HealthBean();
                     healthBean2.setStatus(DateStatus.HealthStatus.NORMAL);
-                    healthBean2.setCheckDate(monthStr + "-11");
+                    healthBean2.setCheckDate(monthStr + "-22");
                     list.add(healthBean2);
 
                     HealthBean healthBean3 = new HealthBean();
                     healthBean3.setStatus(DateStatus.HealthStatus.UNCHECK);
-                    healthBean3.setCheckDate(monthStr + "-13");
+                    healthBean3.setCheckDate(monthStr + "-23");
                     list.add(healthBean3);
 
                     healthDateView.pushData(monthStr, list);
@@ -79,16 +79,16 @@ public class HealthCalendarActivity extends AppCompatActivity implements View.On
                 if (dateView != null && dateView instanceof HealthDateView) {
                     HealthDateView healthDateView = (HealthDateView) dateView;
                     healthDateView.clearHealthData();
-                    String monthStr = DateUtil.getMonthStr(date);
+                    String monthStr = DateUtil.getMonthStr(calendarView.getDelegate().getCurrentPageDate());
                     List<HealthBean> list = new ArrayList<>();
                     HealthBean healthBean1 = new HealthBean();
                     healthBean1.setStatus(DateStatus.HealthStatus.ISSUE);
-                    healthBean1.setCheckDate(monthStr + "-10");
+                    healthBean1.setCheckDate(monthStr + "-07");
                     list.add(healthBean1);
 
                     HealthBean healthBean2 = new HealthBean();
                     healthBean2.setStatus(DateStatus.HealthStatus.NORMAL);
-                    healthBean2.setCheckDate(monthStr + "-11");
+                    healthBean2.setCheckDate(monthStr + "-08");
                     list.add(healthBean2);
 
                     HealthBean healthBean3 = new HealthBean();
