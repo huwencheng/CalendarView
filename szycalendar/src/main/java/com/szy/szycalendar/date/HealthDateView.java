@@ -103,7 +103,7 @@ public class HealthDateView extends BaseDateView {
 
     @Override
     public void destroyDrawingCache() {
-        if (listHealth != null){
+        if (listHealth != null) {
             listHealth.clear();
             listHealth = null;
         }
@@ -127,7 +127,10 @@ public class HealthDateView extends BaseDateView {
         int currentMonth = delegate.getCurrentPageMonth();
 
         if (year == currentYear && month == currentMonth) {
-            if (listHealth == null){
+            if (list == null) {
+                list = new ArrayList<>();
+            }
+            if (listHealth == null) {
                 listHealth = new ArrayList<>();
             }
             listHealth.clear();
