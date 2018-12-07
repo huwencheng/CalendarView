@@ -110,6 +110,12 @@ public class HealthDateView extends BaseDateView {
         super.destroyDrawingCache();
     }
 
+    public void clearHealthData(){
+        if (listHealth != null){
+            listHealth.clear();
+        }
+    }
+
     /**
      * 需要查阅的月份数据
      *
