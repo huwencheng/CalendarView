@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 
 import com.szy.szycalendar.R;
-import com.szy.szycalendar.date.DefaultDateView;
 import com.szy.szycalendar.date.base.BaseDateView;
 import com.szy.szycalendar.utils.DisplayUtil;
 
@@ -96,7 +95,7 @@ public class Delegate {
         selectDay = currentDay = currentPageDay = calendar.get(Calendar.DAY_OF_MONTH);
 
         try {
-            dateViewClass = TextUtils.isEmpty(dateViewPath) ? DefaultDateView.class : Class.forName(dateViewPath);
+            dateViewClass = TextUtils.isEmpty(dateViewPath) ? BaseDateView.class : Class.forName(dateViewPath);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
