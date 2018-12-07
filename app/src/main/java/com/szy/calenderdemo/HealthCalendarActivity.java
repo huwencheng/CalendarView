@@ -50,26 +50,32 @@ public class HealthCalendarActivity extends AppCompatActivity implements View.On
             public void onLeftRowClick(BaseDateView baseDateView, Date date) {
                 Toast.makeText(HealthCalendarActivity.this, "点击了日期：" + DateUtil.getDayStr(date), Toast.LENGTH_SHORT).show();
                 if (dateView != null && dateView instanceof HealthDateView) {
-                    HealthDateView healthDateView = (HealthDateView) dateView;
+                    final HealthDateView healthDateView = (HealthDateView) dateView;
                     healthDateView.clearHealthData();
-                    String monthStr = DateUtil.getMonthStr(calendarView.getDelegate().getCurrentPageDate());
-                    List<HealthBean> list = new ArrayList<>();
-                    HealthBean healthBean1 = new HealthBean();
-                    healthBean1.setStatus(DateStatus.HealthStatus.ISSUE);
-                    healthBean1.setCheckDate(monthStr + "-05");
-                    list.add(healthBean1);
 
-                    HealthBean healthBean2 = new HealthBean();
-                    healthBean2.setStatus(DateStatus.HealthStatus.NORMAL);
-                    healthBean2.setCheckDate(monthStr + "-22");
-                    list.add(healthBean2);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            String monthStr = DateUtil.getMonthStr(calendarView.getDelegate().getCurrentPageDate());
+                            List<HealthBean> list = new ArrayList<>();
+                            HealthBean healthBean1 = new HealthBean();
+                            healthBean1.setStatus(DateStatus.HealthStatus.ISSUE);
+                            healthBean1.setCheckDate(monthStr + "-05");
+                            list.add(healthBean1);
 
-                    HealthBean healthBean3 = new HealthBean();
-                    healthBean3.setStatus(DateStatus.HealthStatus.UNCHECK);
-                    healthBean3.setCheckDate(monthStr + "-23");
-                    list.add(healthBean3);
+                            HealthBean healthBean2 = new HealthBean();
+                            healthBean2.setStatus(DateStatus.HealthStatus.NORMAL);
+                            healthBean2.setCheckDate(monthStr + "-22");
+                            list.add(healthBean2);
 
-                    healthDateView.pushData(monthStr, list);
+                            HealthBean healthBean3 = new HealthBean();
+                            healthBean3.setStatus(DateStatus.HealthStatus.UNCHECK);
+                            healthBean3.setCheckDate(monthStr + "-23");
+                            list.add(healthBean3);
+
+                            healthDateView.pushData(monthStr, list);
+                        }
+                    }, 2000);
                 }
             }
 
@@ -77,26 +83,31 @@ public class HealthCalendarActivity extends AppCompatActivity implements View.On
             public void onRightRowClick(BaseDateView baseDateView, Date date) {
                 Toast.makeText(HealthCalendarActivity.this, "点击了日期：" + DateUtil.getDayStr(date), Toast.LENGTH_SHORT).show();
                 if (dateView != null && dateView instanceof HealthDateView) {
-                    HealthDateView healthDateView = (HealthDateView) dateView;
+                    final HealthDateView healthDateView = (HealthDateView) dateView;
                     healthDateView.clearHealthData();
-                    String monthStr = DateUtil.getMonthStr(calendarView.getDelegate().getCurrentPageDate());
-                    List<HealthBean> list = new ArrayList<>();
-                    HealthBean healthBean1 = new HealthBean();
-                    healthBean1.setStatus(DateStatus.HealthStatus.ISSUE);
-                    healthBean1.setCheckDate(monthStr + "-07");
-                    list.add(healthBean1);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            String monthStr = DateUtil.getMonthStr(calendarView.getDelegate().getCurrentPageDate());
+                            List<HealthBean> list = new ArrayList<>();
+                            HealthBean healthBean1 = new HealthBean();
+                            healthBean1.setStatus(DateStatus.HealthStatus.ISSUE);
+                            healthBean1.setCheckDate(monthStr + "-07");
+                            list.add(healthBean1);
 
-                    HealthBean healthBean2 = new HealthBean();
-                    healthBean2.setStatus(DateStatus.HealthStatus.NORMAL);
-                    healthBean2.setCheckDate(monthStr + "-08");
-                    list.add(healthBean2);
+                            HealthBean healthBean2 = new HealthBean();
+                            healthBean2.setStatus(DateStatus.HealthStatus.NORMAL);
+                            healthBean2.setCheckDate(monthStr + "-08");
+                            list.add(healthBean2);
 
-                    HealthBean healthBean3 = new HealthBean();
-                    healthBean3.setStatus(DateStatus.HealthStatus.UNCHECK);
-                    healthBean3.setCheckDate(monthStr + "-13");
-                    list.add(healthBean3);
+                            HealthBean healthBean3 = new HealthBean();
+                            healthBean3.setStatus(DateStatus.HealthStatus.UNCHECK);
+                            healthBean3.setCheckDate(monthStr + "-13");
+                            list.add(healthBean3);
 
-                    healthDateView.pushData(monthStr, list);
+                            healthDateView.pushData(monthStr, list);
+                        }
+                    }, 2000);
                 }
             }
 
