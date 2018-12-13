@@ -45,7 +45,6 @@ public abstract class BaseDateView extends View {
     protected int tailHeight;//末尾高度
     protected Delegate delegate;
     private PointF focusPoint = new PointF();//焦点坐标
-    private boolean responseWhenEnd = false;//控制事件是否响应
     private CalendarClickListener listener;
     private CalendarView calendarView;
     private MonthBar monthBar;
@@ -341,7 +340,7 @@ public abstract class BaseDateView extends View {
             Log.w(TAG, "选中：" + day + "  事件是否结束" + eventEnd);
             updateSelectAndCurrentPageTime(delegate.getCurrentPageYear(), delegate.getCurrentPageMonth(), day);
             invalidate();
-            if (delegate != null && calendarView != null && monthBar != null && listener != null && eventEnd && responseWhenEnd && !isCurrentPageSelect()) {
+            if (delegate != null && calendarView != null && monthBar != null && listener != null && eventEnd) {
                 delegate.setLastSelectYear(delegate.getSelectYear());
                 delegate.setLastSelectMonth(delegate.getSelectMonth());
                 delegate.setLastSelectDay(delegate.getSelectDay());
@@ -353,7 +352,6 @@ public abstract class BaseDateView extends View {
                 }
                 listener.onDayClick(delegate.getSelectDate());
             }
-            responseWhenEnd = !eventEnd;
         }
     }
 

@@ -68,11 +68,6 @@ public class HealthCalendarActivity extends AppCompatActivity implements View.On
                             healthBean2.setCheckDate(monthStr + "-22");
                             list.add(healthBean2);
 
-                            HealthBean healthBean3 = new HealthBean();
-                            healthBean3.setStatus(DateStatus.HealthStatus.UNCHECK);
-                            healthBean3.setCheckDate(monthStr + "-23");
-                            list.add(healthBean3);
-
                             healthDateView.pushData(monthStr, list);
                         }
                     }, 2000);
@@ -99,11 +94,6 @@ public class HealthCalendarActivity extends AppCompatActivity implements View.On
                             healthBean2.setStatus(DateStatus.HealthStatus.NORMAL);
                             healthBean2.setCheckDate(monthStr + "-08");
                             list.add(healthBean2);
-
-                            HealthBean healthBean3 = new HealthBean();
-                            healthBean3.setStatus(DateStatus.HealthStatus.UNCHECK);
-                            healthBean3.setCheckDate(monthStr + "-13");
-                            list.add(healthBean3);
 
                             healthDateView.pushData(monthStr, list);
                         }
@@ -140,11 +130,6 @@ public class HealthCalendarActivity extends AppCompatActivity implements View.On
                     healthBean2.setCheckDate(monthStr + "-11");
                     list.add(healthBean2);
 
-                    HealthBean healthBean3 = new HealthBean();
-                    healthBean3.setStatus(DateStatus.HealthStatus.UNCHECK);
-                    healthBean3.setCheckDate(monthStr + "-13");
-                    list.add(healthBean3);
-
                     healthDateView.pushData(monthStr, list);
                 }
             }
@@ -169,11 +154,6 @@ public class HealthCalendarActivity extends AppCompatActivity implements View.On
                     healthBean2.setStatus(DateStatus.HealthStatus.NORMAL);
                     healthBean2.setCheckDate(monthStr + "-11");
                     list.add(healthBean2);
-
-                    HealthBean healthBean3 = new HealthBean();
-                    healthBean3.setStatus(DateStatus.HealthStatus.UNCHECK);
-                    healthBean3.setCheckDate(monthStr + "-13");
-                    list.add(healthBean3);
 
                     healthDateView.pushData(monthStr, list);
                     calendarView.visibleCanlendar(calendarView.isVisibleMenu() ? false : true);
