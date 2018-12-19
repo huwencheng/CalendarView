@@ -27,6 +27,7 @@ public class Delegate {
     private final int textColorWeekDay;
     private int monthRowL;
     private int monthRowR;
+    private final boolean monthOnlyBefore;
     private int textColorMonth;
     private int textColorWeek;
     private int textColorDay;
@@ -58,6 +59,7 @@ public class Delegate {
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SzyCalendar, defStyleAttr, 0);
         monthRowL = a.getResourceId(R.styleable.SzyCalendar_szyMonthRowLIcon, R.drawable.calendar_row_left);
         monthRowR = a.getResourceId(R.styleable.SzyCalendar_szyMonthRowRIcon, R.drawable.calendar_row_right);
+        monthOnlyBefore = a.getBoolean(R.styleable.SzyCalendar_szyMonthHealthOnlyBefore, false);
 
         textColorMonth = a.getColor(R.styleable.SzyCalendar_szyTextColorMonth, Color.parseColor("#333333"));
         textColorWeek = a.getColor(R.styleable.SzyCalendar_szyTextColorWeek, Color.parseColor("#bbbbbd"));
@@ -123,6 +125,10 @@ public class Delegate {
 
     public int getMonthRowR() {
         return monthRowR;
+    }
+
+    public boolean isMonthOnlyBefore() {
+        return monthOnlyBefore;
     }
 
     public int getTextColorMonth() {

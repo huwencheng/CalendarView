@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.szy.szycalendar.CalendarView;
 import com.szy.szycalendar.R;
@@ -21,6 +22,7 @@ import com.szy.szycalendar.utils.DisplayUtil;
 import com.szy.szycalendar.utils.DoubleClickUtils;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * 选择月份栏
@@ -28,7 +30,7 @@ import java.util.Calendar;
  * @author huwencheng
  * @date 2018/10/30 19:11
  */
-public class MonthBar extends LinearLayout implements View.OnClickListener {
+public class BaseMonthBar extends LinearLayout implements View.OnClickListener {
 
     private TextView tvTitle;
     private CalendarView calendarView;
@@ -36,15 +38,15 @@ public class MonthBar extends LinearLayout implements View.OnClickListener {
     private CalendarClickListener listener;
     private BaseDateView baseDateView;
 
-    public MonthBar(Context context) {
+    public BaseMonthBar(Context context) {
         this(context, null);
     }
 
-    public MonthBar(Context context, @Nullable AttributeSet attrs) {
+    public BaseMonthBar(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public MonthBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public BaseMonthBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         View inflate = LayoutInflater.from(context).inflate(R.layout.cv_month_bar, this, true);
         tvTitle = (TextView) inflate.findViewById(R.id.tv_title);
@@ -107,7 +109,28 @@ public class MonthBar extends LinearLayout implements View.OnClickListener {
                 if (visible) {
                     updateMonth(1, true);
                 } else {
-                    updateDay(1, false);
+                    if (delegate.isMonthOnlyBefore()){
+                        Date currentDate = delegate.getCurrentDate();
+
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(delegate.getSelectDate());
+                        calendar.add(Calendar.DAY_OF_MONTH, 1);
+                        Date selectDate = calendar.getTime();
+
+                        String currentDateStr = DateUtil.getDayStr(currentDate);
+                        String selectDateStr = DateUtil.getDayStr(selectDate);
+
+                        int compare = DateUtil.compareTime(currentDateStr, selectDateStr, DateUtil.YMD_LINE);
+                        //选中日期<=当前日期 才更新对应日期
+                        if (compare == 0 || compare == 1){
+                            updateDay(1, false);
+                        }else {
+                            Toast.makeText(getContext(), R.string.health_beyond, Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }else{
+                        updateDay(1, false);
+                    }
                 }
                 listener.onRightRowClick(baseDateView, delegate.getSelectDate());
             }

@@ -11,11 +11,13 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.szy.szycalendar.CalendarView;
+import com.szy.szycalendar.R;
 import com.szy.szycalendar.common.Delegate;
 import com.szy.szycalendar.inner.CalendarClickListener;
-import com.szy.szycalendar.month.MonthBar;
+import com.szy.szycalendar.month.BaseMonthBar;
 import com.szy.szycalendar.utils.DateUtil;
 import com.szy.szycalendar.utils.DisplayUtil;
 
@@ -47,7 +49,7 @@ public abstract class BaseDateView extends View {
     private PointF focusPoint = new PointF();//焦点坐标
     private CalendarClickListener listener;
     private CalendarView calendarView;
-    private MonthBar monthBar;
+    private BaseMonthBar baseMonthBar;
 
     public BaseDateView(Context context) {
         this(context, null);
@@ -73,9 +75,9 @@ public abstract class BaseDateView extends View {
         circlePaint.setAntiAlias(true);//抗锯齿
     }
 
-    public void setup(CalendarView calendarView, MonthBar monthBar, Delegate delegate) {
+    public void setup(CalendarView calendarView, BaseMonthBar baseMonthBar, Delegate delegate) {
         this.calendarView = calendarView;
-        this.monthBar = monthBar;
+        this.baseMonthBar = baseMonthBar;
         this.delegate = delegate;
         setBackgroundColor(Color.WHITE);
         recPaint.setColor(Color.TRANSPARENT);
@@ -338,19 +340,41 @@ public abstract class BaseDateView extends View {
     private void setSelectedDay(int day, boolean eventEnd) {
         if (canTouch(day)) {
             Log.w(TAG, "选中：" + day + "  事件是否结束" + eventEnd);
-            updateSelectAndCurrentPageTime(delegate.getCurrentPageYear(), delegate.getCurrentPageMonth(), day);
-            invalidate();
-            if (delegate != null && calendarView != null && monthBar != null && listener != null && eventEnd) {
-                delegate.setLastSelectYear(delegate.getSelectYear());
-                delegate.setLastSelectMonth(delegate.getSelectMonth());
-                delegate.setLastSelectDay(delegate.getSelectDay());
-                calendarView.visibleCanlendar(false);
-                if (delegate.isCalendarExEnable()) {
-                    monthBar.updateTitle(DateUtil.getMonthStr(delegate.getSelectYear(), delegate.getSelectMonth()));
+            if (delegate != null && listener != null) {
+                if (delegate.isMonthOnlyBefore()) {
+                    Date currentDate = delegate.getCurrentDate();
+
+                    String currentDateStr = DateUtil.getDayStr(currentDate);
+                    String selectDateStr = DateUtil.getDayStr(delegate.getCurrentPageYear(), delegate.getCurrentPageMonth(), day);
+
+                    int compare = DateUtil.compareTime(currentDateStr, selectDateStr, DateUtil.YMD_LINE);
+                    //选中日期<=当前日期 才更新对应日期
+                    if (compare == 0 || compare == 1) {
+                        updateSelectInfo(day, eventEnd);
+                    }else{
+                        Toast.makeText(getContext(), R.string.health_beyond, Toast.LENGTH_LONG).show();
+                        return;
+                    }
                 } else {
-                    monthBar.updateTitle(DateUtil.getDayStr(delegate.getSelectYear(), delegate.getSelectMonth(), delegate.getSelectDay()));
+                    updateSelectInfo(day, eventEnd);
                 }
                 listener.onDayClick(delegate.getSelectDate());
+            }
+        }
+    }
+
+    private void updateSelectInfo(int day, boolean eventEnd) {
+        updateSelectAndCurrentPageTime(delegate.getCurrentPageYear(), delegate.getCurrentPageMonth(), day);
+        invalidate();
+        if (calendarView != null && baseMonthBar != null && eventEnd) {
+            delegate.setLastSelectYear(delegate.getSelectYear());
+            delegate.setLastSelectMonth(delegate.getSelectMonth());
+            delegate.setLastSelectDay(delegate.getSelectDay());
+            calendarView.visibleCanlendar(false);
+            if (delegate.isCalendarExEnable()) {
+                baseMonthBar.updateTitle(DateUtil.getMonthStr(delegate.getSelectYear(), delegate.getSelectMonth()));
+            } else {
+                baseMonthBar.updateTitle(DateUtil.getDayStr(delegate.getSelectYear(), delegate.getSelectMonth(), delegate.getSelectDay()));
             }
         }
     }

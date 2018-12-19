@@ -7,9 +7,9 @@ package com.szy.szycalendar.annotation;
 public interface DateStatus {
 
     interface HealthStatus {
-        int NORMAL = 1;//正常
-        int ISSUE = 2;//异常
-        int UNCHECK = 3;//未检查
+        int NORMAL = 0;//正常
+        int ISSUE = 1;//异常
+        int UNCHECK = 2;//未检查
     }
 
 }

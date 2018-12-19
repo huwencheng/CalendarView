@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.szy.szycalendar.CalendarView;
+import com.szy.szycalendar.common.Delegate;
 import com.szy.szycalendar.date.base.BaseDateView;
 import com.szy.szycalendar.inner.CalendarClickListener;
 import com.szy.szycalendar.utils.DateUtil;

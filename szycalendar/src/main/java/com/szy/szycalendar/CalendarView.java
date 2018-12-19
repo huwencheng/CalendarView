@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import com.szy.szycalendar.common.Delegate;
 import com.szy.szycalendar.date.base.BaseDateView;
 import com.szy.szycalendar.inner.CalendarClickListener;
-import com.szy.szycalendar.month.MonthBar;
+import com.szy.szycalendar.month.BaseMonthBar;
 import com.szy.szycalendar.utils.DateUtil;
 import com.szy.szycalendar.utils.DisplayUtil;
 import com.szy.szycalendar.utils.DoubleClickUtils;
@@ -35,7 +35,7 @@ public class CalendarView extends FrameLayout {
     private Delegate delegate;
     private CalendarClickListener listener;
     private LinearLayout calendar;
-    private MonthBar monthBar;
+    private BaseMonthBar baseMonthBar;
     private BaseDateView baseDateView;
     private LinearLayout content;
 
@@ -66,7 +66,7 @@ public class CalendarView extends FrameLayout {
                 if (DoubleClickUtils.getInstance().isInvalidClick()) {
                     return;
                 }
-                if (delegate != null && monthBar != null && listener != null) {
+                if (delegate != null && baseMonthBar != null && listener != null) {
                     visibleCanlendar(false);
                     listener.onMaskClick();
                 }
@@ -82,9 +82,9 @@ public class CalendarView extends FrameLayout {
         addView(content);
 
         //月份栏
-        monthBar = new MonthBar(context);
-        monthBar.setup(this, delegate);
-        content.addView(monthBar);
+        baseMonthBar = new BaseMonthBar(context);
+        baseMonthBar.setup(this, delegate);
+        content.addView(baseMonthBar);
 
         //分割线
         View line = new View(context);
@@ -107,7 +107,7 @@ public class CalendarView extends FrameLayout {
         try {
             Constructor<?> constructor = delegate.getDateViewClass().getConstructor(Context.class);
             baseDateView = (BaseDateView) constructor.newInstance(context);
-            baseDateView.setup(this, monthBar, delegate);
+            baseDateView.setup(this, baseMonthBar, delegate);
             calendar.addView(baseDateView);
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,9 +129,9 @@ public class CalendarView extends FrameLayout {
 
     public void visibleCanlendar(final boolean isShow) {
         if (delegate.isCalendarExEnable()) {
-            monthBar.updateTitle(DateUtil.getMonthStr(delegate.getSelectYear(), delegate.getSelectMonth()));
+            baseMonthBar.updateTitle(DateUtil.getMonthStr(delegate.getSelectYear(), delegate.getSelectMonth()));
         } else {
-            monthBar.updateTitle(DateUtil.getDayStr(delegate.getSelectYear(), delegate.getSelectMonth(), delegate.getSelectDay()));
+            baseMonthBar.updateTitle(DateUtil.getDayStr(delegate.getSelectYear(), delegate.getSelectMonth(), delegate.getSelectDay()));
         }
 
         int selectYear = delegate.getSelectYear();
@@ -181,7 +181,7 @@ public class CalendarView extends FrameLayout {
 
     public void setOnCalendarClickListener(CalendarClickListener listener) {
         this.listener = listener;
-        monthBar.setListener(baseDateView, listener);
+        baseMonthBar.setListener(baseDateView, listener);
         baseDateView.setListener(listener);
     }
 

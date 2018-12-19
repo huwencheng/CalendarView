@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         app:szyCalendarExEnable="false"
         app:szyDateViewPath="com.szy.szycalendar.date.DefaultDateView"
+        app:szyMonthHealthOnlyBefore="true"
         app:szyMonthTitleClickEnable="true" />
 
 </LinearLayout>
