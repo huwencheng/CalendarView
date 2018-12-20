@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:szyCalendarExEnable="false"
+        app:szyMonthBarPath="com.szy.szycalendar.month.DefaultMonthBar"
         app:szyDateViewPath="com.szy.szycalendar.date.DefaultDateView"
-        app:szyMonthHealthOnlyBefore="true"
         app:szyMonthTitleClickEnable="true" />
 
 </LinearLayout>

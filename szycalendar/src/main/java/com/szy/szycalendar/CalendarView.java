@@ -13,11 +13,11 @@ import android.widget.LinearLayout;
 import com.szy.szycalendar.common.Delegate;
 import com.szy.szycalendar.date.base.BaseDateView;
 import com.szy.szycalendar.inner.CalendarClickListener;
-import com.szy.szycalendar.month.BaseMonthBar;
+import com.szy.szycalendar.month.base.BaseMonthBar;
 import com.szy.szycalendar.utils.DateUtil;
 import com.szy.szycalendar.utils.DisplayUtil;
 import com.szy.szycalendar.utils.DoubleClickUtils;
-import com.szy.szycalendar.week.WeekBar;
+import com.szy.szycalendar.week.BaseWeekBar;
 
 import java.lang.reflect.Constructor;
 import java.util.Date;
@@ -82,9 +82,14 @@ public class CalendarView extends FrameLayout {
         addView(content);
 
         //月份栏
-        baseMonthBar = new BaseMonthBar(context);
-        baseMonthBar.setup(this, delegate);
-        content.addView(baseMonthBar);
+        try {
+            Constructor<?> constructor = delegate.getMonthBarClass().getConstructor(Context.class);
+            baseMonthBar = (BaseMonthBar) constructor.newInstance(context);
+            baseMonthBar.setup(this, delegate);
+            content.addView(baseMonthBar);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //分割线
         View line = new View(context);
@@ -99,9 +104,9 @@ public class CalendarView extends FrameLayout {
         content.addView(calendar);
 
         //星期栏
-        WeekBar weekBar = new WeekBar(context);
-        weekBar.setup(delegate);
-        calendar.addView(weekBar);
+        BaseWeekBar baseWeekBar = new BaseWeekBar(context);
+        baseWeekBar.setup(delegate);
+        calendar.addView(baseWeekBar);
 
         //日期栏
         try {

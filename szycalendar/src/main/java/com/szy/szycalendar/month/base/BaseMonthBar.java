@@ -1,4 +1,4 @@
-package com.szy.szycalendar.month;
+package com.szy.szycalendar.month.base;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -34,9 +34,9 @@ public class BaseMonthBar extends LinearLayout implements View.OnClickListener {
 
     private TextView tvTitle;
     private CalendarView calendarView;
-    private Delegate delegate;
-    private CalendarClickListener listener;
-    private BaseDateView baseDateView;
+    protected Delegate delegate;
+    protected CalendarClickListener listener;
+    protected BaseDateView baseDateView;
 
     public BaseMonthBar(Context context) {
         this(context, null);
@@ -108,33 +108,17 @@ public class BaseMonthBar extends LinearLayout implements View.OnClickListener {
                 boolean visible = calendarView.isVisibleMenu();
                 if (visible) {
                     updateMonth(1, true);
+                    listener.onRightRowClick(baseDateView, delegate.getSelectDate());
                 } else {
-                    if (delegate.isMonthOnlyBefore()){
-                        Date currentDate = delegate.getCurrentDate();
-
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTime(delegate.getSelectDate());
-                        calendar.add(Calendar.DAY_OF_MONTH, 1);
-                        Date selectDate = calendar.getTime();
-
-                        String currentDateStr = DateUtil.getDayStr(currentDate);
-                        String selectDateStr = DateUtil.getDayStr(selectDate);
-
-                        int compare = DateUtil.compareTime(currentDateStr, selectDateStr, DateUtil.YMD_LINE);
-                        //选中日期<=当前日期 才更新对应日期
-                        if (compare == 0 || compare == 1){
-                            updateDay(1, false);
-                        }else {
-                            Toast.makeText(getContext(), R.string.health_beyond, Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                    }else{
-                        updateDay(1, false);
-                    }
+                    updateRightDay();
                 }
-                listener.onRightRowClick(baseDateView, delegate.getSelectDate());
             }
         }
+    }
+
+    protected void updateRightDay(){
+        updateDay(1, false);
+        listener.onRightRowClick(baseDateView, delegate.getSelectDate());
     }
 
     /**
@@ -176,7 +160,7 @@ public class BaseMonthBar extends LinearLayout implements View.OnClickListener {
      * @param change  改变值
      * @param visible true：更新当前页面的日期， false：更新选中的日期
      */
-    private void updateDay(int change, boolean visible) {
+    protected void updateDay(int change, boolean visible) {
         if (visible) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(delegate.getCurrentPageDate());

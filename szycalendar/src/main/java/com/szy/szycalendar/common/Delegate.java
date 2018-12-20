@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 
 import com.szy.szycalendar.R;
 import com.szy.szycalendar.date.DefaultDateView;
+import com.szy.szycalendar.month.DefaultMonthBar;
 import com.szy.szycalendar.utils.DisplayUtil;
 
 import java.util.Calendar;
@@ -27,7 +28,6 @@ public class Delegate {
     private final int textColorWeekDay;
     private int monthRowL;
     private int monthRowR;
-    private final boolean monthOnlyBefore;
     private int textColorMonth;
     private int textColorWeek;
     private int textColorDay;
@@ -37,6 +37,7 @@ public class Delegate {
     private final boolean monthTitleClickEnable;
     private final boolean calendarExEnable;// true:全部隐藏 false:指隐藏周栏和日期栏，保留月份栏
     private Class<?> dateViewClass;
+    private Class<?> monthBarClass;
 
     private Date currentDate;//当前的日期
     private int currentYear;//当前的年
@@ -59,7 +60,6 @@ public class Delegate {
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SzyCalendar, defStyleAttr, 0);
         monthRowL = a.getResourceId(R.styleable.SzyCalendar_szyMonthRowLIcon, R.drawable.calendar_row_left);
         monthRowR = a.getResourceId(R.styleable.SzyCalendar_szyMonthRowRIcon, R.drawable.calendar_row_right);
-        monthOnlyBefore = a.getBoolean(R.styleable.SzyCalendar_szyMonthHealthOnlyBefore, false);
 
         textColorMonth = a.getColor(R.styleable.SzyCalendar_szyTextColorMonth, Color.parseColor("#333333"));
         textColorWeek = a.getColor(R.styleable.SzyCalendar_szyTextColorWeek, Color.parseColor("#bbbbbd"));
@@ -78,12 +78,13 @@ public class Delegate {
         monthTitleClickEnable = a.getBoolean(R.styleable.SzyCalendar_szyMonthTitleClickEnable, true);
         calendarExEnable = a.getBoolean(R.styleable.SzyCalendar_szyCalendarExEnable, false);
         String dateViewPath = a.getString(R.styleable.SzyCalendar_szyDateViewPath);
+        String monthBarPath = a.getString(R.styleable.SzyCalendar_szyMonthBarPath);
 
         a.recycle();
-        init(context, dateViewPath);
+        init(context, dateViewPath, monthBarPath);
     }
 
-    private void init(Context context, String dateViewPath) {
+    private void init(Context context, String dateViewPath, String monthBarPath) {
         DisplayUtil.init(context);
 
         //默认选中的日期为当前日期
@@ -98,6 +99,7 @@ public class Delegate {
 
         try {
             dateViewClass = TextUtils.isEmpty(dateViewPath) ? DefaultDateView.class : Class.forName(dateViewPath);
+            monthBarClass = TextUtils.isDigitsOnly(monthBarPath) ? DefaultMonthBar.class : Class.forName(monthBarPath);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -125,10 +127,6 @@ public class Delegate {
 
     public int getMonthRowR() {
         return monthRowR;
-    }
-
-    public boolean isMonthOnlyBefore() {
-        return monthOnlyBefore;
     }
 
     public int getTextColorMonth() {
@@ -291,4 +289,7 @@ public class Delegate {
         return dateViewClass;
     }
 
+    public Class<?> getMonthBarClass() {
+        return monthBarClass;
+    }
 }

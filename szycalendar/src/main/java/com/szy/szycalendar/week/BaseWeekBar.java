@@ -19,17 +19,17 @@ import com.szy.szycalendar.utils.DisplayUtil;
  * @author huwencheng
  * @date 2018/10/30 17:23
  */
-public class WeekBar extends LinearLayout {
+public class BaseWeekBar extends LinearLayout {
 
-    public WeekBar(Context context) {
+    public BaseWeekBar(Context context) {
         this(context, null);
     }
 
-    public WeekBar(Context context, @Nullable AttributeSet attrs) {
+    public BaseWeekBar(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public WeekBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public BaseWeekBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         LayoutInflater.from(context).inflate(R.layout.cv_week_bar, this, true);
     }

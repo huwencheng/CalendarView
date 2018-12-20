@@ -17,7 +17,7 @@ import com.szy.szycalendar.CalendarView;
 import com.szy.szycalendar.R;
 import com.szy.szycalendar.common.Delegate;
 import com.szy.szycalendar.inner.CalendarClickListener;
-import com.szy.szycalendar.month.BaseMonthBar;
+import com.szy.szycalendar.month.base.BaseMonthBar;
 import com.szy.szycalendar.utils.DateUtil;
 import com.szy.szycalendar.utils.DisplayUtil;
 
@@ -47,7 +47,7 @@ public abstract class BaseDateView extends View {
     protected int tailHeight;//末尾高度
     protected Delegate delegate;
     private PointF focusPoint = new PointF();//焦点坐标
-    private CalendarClickListener listener;
+    protected CalendarClickListener listener;
     private CalendarView calendarView;
     private BaseMonthBar baseMonthBar;
 
@@ -341,29 +341,17 @@ public abstract class BaseDateView extends View {
         if (canTouch(day)) {
             Log.w(TAG, "选中：" + day + "  事件是否结束" + eventEnd);
             if (delegate != null && listener != null) {
-                if (delegate.isMonthOnlyBefore()) {
-                    Date currentDate = delegate.getCurrentDate();
-
-                    String currentDateStr = DateUtil.getDayStr(currentDate);
-                    String selectDateStr = DateUtil.getDayStr(delegate.getCurrentPageYear(), delegate.getCurrentPageMonth(), day);
-
-                    int compare = DateUtil.compareTime(currentDateStr, selectDateStr, DateUtil.YMD_LINE);
-                    //选中日期<=当前日期 才更新对应日期
-                    if (compare == 0 || compare == 1) {
-                        updateSelectInfo(day, eventEnd);
-                    }else{
-                        Toast.makeText(getContext(), R.string.health_beyond, Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                } else {
-                    updateSelectInfo(day, eventEnd);
-                }
-                listener.onDayClick(delegate.getSelectDate());
+                updateSelectDay(day, eventEnd);
             }
         }
     }
 
-    private void updateSelectInfo(int day, boolean eventEnd) {
+    protected void updateSelectDay(int day, boolean eventEnd){
+        updateSelectInfo(day, eventEnd);
+        listener.onDayClick(delegate.getSelectDate());
+    }
+
+    protected void updateSelectInfo(int day, boolean eventEnd) {
         updateSelectAndCurrentPageTime(delegate.getCurrentPageYear(), delegate.getCurrentPageMonth(), day);
         invalidate();
         if (calendarView != null && baseMonthBar != null && eventEnd) {

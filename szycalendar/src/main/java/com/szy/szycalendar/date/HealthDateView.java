@@ -32,7 +32,7 @@ public class HealthDateView extends BaseDateView {
     private Paint dotPaint;//圆点画笔
     private int spaceHeight;//圆心到点的距离
     private int dotRadius;//点的半径
-    private List<HealthBean> listHealth = new ArrayList<>();//需要查阅的月份对应的数据
+    protected List<HealthBean> listHealth = new ArrayList<>();//需要查阅的月份对应的数据
 
     public HealthDateView(Context context) {
         super(context);
@@ -146,7 +146,9 @@ public class HealthDateView extends BaseDateView {
         invalidate();
     }
 
-    private
+
+
+    protected
     @DateAnnotation.HealthStatus
     int matchStatus(int day) {
         if (listHealth != null && listHealth.size() > 0) {
@@ -175,7 +177,7 @@ public class HealthDateView extends BaseDateView {
         }
     }
 
-    private int getHealthTextColorWeekDay(int day) {
+    protected int getHealthTextColorWeekDay(int day) {
         int status = matchStatus(day);
         if (status == DateStatus.HealthStatus.NORMAL) {
             return getContext().getResources().getColor(R.color.health_normal);
@@ -186,7 +188,7 @@ public class HealthDateView extends BaseDateView {
         }
     }
 
-    private int getHealthTextColorDay(int day) {
+    protected int getHealthTextColorDay(int day) {
         int status = matchStatus(day);
         if (status == DateStatus.HealthStatus.NORMAL) {
             return getContext().getResources().getColor(R.color.health_normal);

@@ -4,7 +4,6 @@
 
         <attr name="szyMonthRowLIcon" format="reference" />            <!--月份箭头-->
         <attr name="szyMonthRowRIcon" format="reference" />            <!--月份箭头-->
-        <attr name="szyMonthHealthOnlyBefore" format="boolean"/>           <!--只支持在当天和当天之前的日期可以点击-->
 
         <attr name="szyTextColorMonth" format="color" />           <!--标题年月字体颜色-->
         <attr name="szyTextColorWeek" format="color" />            <!--星期字体颜色-->
@@ -22,6 +21,7 @@
 
         <attr name="szyMonthTitleClickEnable" format="boolean"/>        <!--月份标题是否可以点击-->
         <attr name="szyCalendarExEnable" format="boolean"/>                <!--隐藏日历的时候是否全部隐藏-->
+        <attr name="szyMonthBarPath" format="string" />                 <!--自定义MonthBar路径-->
         <attr name="szyDateViewPath" format="string" />                 <!--自定义DateView路径-->
 
     </declare-styleable>

@@ -17,7 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".DefaultCalendarActivity" />
-        <activity android:name=".HealthCalendarActivity"></activity>
+        <activity android:name=".HealthCalendarActivity" />
+        <activity android:name=".HealthListCalendarActivity" />
+        <activity android:name=".HealthLimitCalendarActivity"></activity>
     </application>
 
 </manifest>

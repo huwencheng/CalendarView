@@ -9,7 +9,7 @@
         android:id="@+id/btn_health"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="三检日历" />
+        android:text="三检列表日历" />
 
     <com.szy.szycalendar.CalendarView
         android:id="@+id/calendarView"
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         app:szyCalendarExEnable="true"
         app:szyMonthBarPath="com.szy.szycalendar.month.DefaultMonthBar"
-        app:szyDateViewPath="com.szy.szycalendar.date.HealthDateView"
+        app:szyDateViewPath="com.szy.szycalendar.date.HealthListDateView"
         app:szyMonthTitleClickEnable="false" />
 
 </LinearLayout>
