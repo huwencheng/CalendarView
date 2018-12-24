@@ -340,7 +340,7 @@ public abstract class BaseDateView extends View {
     private void setSelectedDay(int day, boolean eventEnd) {
         if (canTouch(day)) {
             Log.w(TAG, "选中：" + day + "  事件是否结束" + eventEnd);
-            if (delegate != null && listener != null) {
+            if (delegate != null && listener != null && eventEnd) {
                 updateSelectDay(day, eventEnd);
             }
         }
