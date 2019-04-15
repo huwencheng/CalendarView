@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:szyCalendarExEnable="false"
+        app:szyDateBeyondTips="@string/health_beyond_tips"
         app:szyDateViewPath="com.szy.szycalendar.date.HealthLimitDateView"
         app:szyMonthBarPath="com.szy.szycalendar.month.HealthLimitMonthBar"
         app:szyMonthTitleClickEnable="true" />

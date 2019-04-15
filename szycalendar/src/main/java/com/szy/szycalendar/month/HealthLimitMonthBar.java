@@ -38,7 +38,7 @@ public class HealthLimitMonthBar extends BaseMonthBar {
         if (compare == 0 || compare == 1) {
             updateDay(1, false);
         } else {
-            Toast.makeText(getContext(), R.string.health_beyond, Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), delegate.getDateBeyondTips(), Toast.LENGTH_LONG).show();
             return;
         }
         listener.onRightRowClick(baseDateView, delegate.getSelectDate());

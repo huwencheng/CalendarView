@@ -24,5 +24,7 @@
         <attr name="szyMonthBarPath" format="string" />                 <!--自定义MonthBar路径-->
         <attr name="szyDateViewPath" format="string" />                 <!--自定义DateView路径-->
 
+        <attr name="szyDateBeyondTips" format="string"/>                 <!--日期超过文字提醒内容-->
+
     </declare-styleable>
 </resources>

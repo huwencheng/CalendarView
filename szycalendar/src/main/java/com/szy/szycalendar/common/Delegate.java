@@ -55,6 +55,7 @@ public class Delegate {
     private int lastSelectYear;//上一次选中的年（避免造成重复回调请求）
     private int lastSelectMonth;//上一次选中的月（避免造成重复回调请求）
     private int lastSelectDay;//上一次选中的日（避免造成重复回调请求）
+    public String dateBeyondTips;//日期超过文字提醒内容
 
     public Delegate(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SzyCalendar, defStyleAttr, 0);
@@ -79,6 +80,8 @@ public class Delegate {
         calendarExEnable = a.getBoolean(R.styleable.SzyCalendar_szyCalendarExEnable, false);
         String dateViewPath = a.getString(R.styleable.SzyCalendar_szyDateViewPath);
         String monthBarPath = a.getString(R.styleable.SzyCalendar_szyMonthBarPath);
+
+        dateBeyondTips = a.getString(R.styleable.SzyCalendar_szyDateBeyondTips);
 
         a.recycle();
         init(context, dateViewPath, monthBarPath);
@@ -291,5 +294,13 @@ public class Delegate {
 
     public Class<?> getMonthBarClass() {
         return monthBarClass;
+    }
+
+    public String getDateBeyondTips() {
+        return dateBeyondTips;
+    }
+
+    public void setDateBeyondTips(String dateBeyondTips) {
+        this.dateBeyondTips = dateBeyondTips;
     }
 }

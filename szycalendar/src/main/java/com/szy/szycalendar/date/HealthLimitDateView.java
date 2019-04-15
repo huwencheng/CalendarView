@@ -32,7 +32,7 @@ public class HealthLimitDateView extends BaseDateView {
         if (compare == 0 || compare == 1) {
             updateSelectInfo(day, eventEnd);
         } else {
-            Toast.makeText(getContext(), R.string.health_beyond, Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), delegate.getDateBeyondTips(), Toast.LENGTH_LONG).show();
             return;
         }
         listener.onDayClick(delegate.getSelectDate());
