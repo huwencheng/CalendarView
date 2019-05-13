@@ -1,6 +1,7 @@
 package com.szy.szycalendar.date;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.szy.szycalendar.R;
@@ -26,8 +27,10 @@ public class HealthLimitDateView extends BaseDateView {
 
         String currentDateStr = DateUtil.getDayStr(currentDate);
         String selectDateStr = DateUtil.getDayStr(delegate.getCurrentPageYear(), delegate.getCurrentPageMonth(), day);
-
         int compare = DateUtil.compareTime(currentDateStr, selectDateStr, DateUtil.YMD_LINE);
+        Log.d("summer", "currentDateStr:" + currentDateStr);
+        Log.d("summer", "selectDateStr:" + selectDateStr);
+        Log.d("summer", "compare:" + compare);
         //选中日期<=当前日期 才更新对应日期
         if (compare == 0 || compare == 1) {
             updateSelectInfo(day, eventEnd);

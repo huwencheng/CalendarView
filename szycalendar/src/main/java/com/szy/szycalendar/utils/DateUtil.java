@@ -83,7 +83,7 @@ public class DateUtil {
      * 获取年月标题
      */
     public static String getMonthStr(int year, int month) {
-        return year + "-" + month;
+        return year + "-" + String.format("%02d", month);
     }
 
     /**
@@ -98,7 +98,7 @@ public class DateUtil {
      * 获取年月日标题
      */
     public static String getDayStr(int year, int month, int day) {
-        return year + "-" + month + "-" + day;
+        return year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
     }
 
     public static Date str2DateYM(String str) {

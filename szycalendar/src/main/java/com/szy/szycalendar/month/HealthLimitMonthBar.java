@@ -1,6 +1,7 @@
 package com.szy.szycalendar.month;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.szy.szycalendar.R;
@@ -34,6 +35,9 @@ public class HealthLimitMonthBar extends BaseMonthBar {
         String selectDateStr = DateUtil.getDayStr(selectDate);
 
         int compare = DateUtil.compareTime(currentDateStr, selectDateStr, DateUtil.YMD_LINE);
+        Log.d("summer", "currentDateStr:" + currentDateStr);
+        Log.d("summer", "selectDateStr:" + selectDateStr);
+        Log.d("summer", "compare:" + compare);
         //选中日期<=当前日期 才更新对应日期
         if (compare == 0 || compare == 1) {
             updateDay(1, false);
